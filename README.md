@@ -3,6 +3,7 @@
 A Java 21 / Spring Boot 4.1.2 project using the code from
 WebStore_SpringBoot_Student_Tutorial_HE (1).html, with a pastel pink plushie
 boutique storefront.
+Used to be a computer store, i made some changes for it to look pretty and changed the names, I'm sure it's fine.
 
 ## Open the store
 
