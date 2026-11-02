@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff4f8">
+    <title>Mallow &amp; Moon — Plushie Boutique</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #503848;
+            --muted: #987e91;
+            --line: #f3dce7;
+            --surface: #fffdfd;
+            --page: #fff7fa;
+            --accent: #e879a5;
+            --accent-dark: #cf5e8b;
+            --danger: #bd5574;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        }
+
+        .topbar {
+            background: #fffdfd;
+            border-bottom: 1px solid #f7e7ee;
+            padding: 15px max(24px, calc((100vw - 1180px) / 2));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand-lockup { display: flex; align-items: center; gap: 11px; }
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: #ffedf4;
+            color: #df6e9a;
+            font-size: 1.45rem;
+        }
+        .brand { margin: 0; color: #68435a; font-size: 1.3rem; letter-spacing: -.035em; }
+        .tagline { margin: 3px 0 0; color: var(--muted); font-size: .83rem; }
+        .topbar-right { display: flex; align-items: center; gap: 22px; }
+        .nav-link { color: #76566c; text-decoration: none; font-size: .9rem; font-weight: 700; }
+        .nav-link:hover { color: var(--accent-dark); }
+        .api-status { color: var(--muted); font-size: .78rem; }
+        .api-status[data-state="ready"] { color: #648e79; }
+        .api-status[data-state="error"] { color: #bd5574; }
+
+        main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px 56px;
+        }
+
+        .hero {
+            min-height: 335px;
+            margin: 28px 0 48px;
+            padding: 42px 54px;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid #f6dce7;
+            border-radius: 30px;
+            background:
+                radial-gradient(ellipse at 82% 18%, rgb(255 255 255 / 82%) 0 5%, transparent 5.5%),
+                radial-gradient(ellipse at 88% 82%, rgb(255 255 255 / 68%) 0 4%, transparent 4.5%),
+                linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+        }
+        .hero-copy { position: relative; z-index: 1; }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 12px;
+            border: 1px solid #f7ccdc;
+            border-radius: 999px;
+            background: rgb(255 255 255 / 72%);
+            color: #b65f83;
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .hero h2 {
+            max-width: 510px;
+            margin: 17px 0 12px;
+            color: #673f59;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 500;
+            letter-spacing: -.055em;
+            line-height: 1.04;
+        }
+        .hero h2 span { color: #dc7098; font-style: italic; }
+        .hero-copy > p { max-width: 430px; margin: 0; color: #886b7e; line-height: 1.7; }
+        .hero-button {
+            display: inline-flex;
+            margin-top: 23px;
+            padding: 12px 19px;
+            border-radius: 999px;
+            background: #de759b;
+            box-shadow: 0 7px 16px rgb(191 92 133 / 20%);
+            color: white;
+            font-size: .92rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform .18s ease, background .18s ease;
+        }
+        .hero-button:hover { transform: translateY(-2px); background: #c85f88; }
+        .hero-art { position: relative; display: grid; min-height: 230px; place-items: center; }
+        .hero-art::before {
+            position: absolute;
+            width: 245px;
+            height: 215px;
+            border-radius: 48% 52% 43% 57% / 52% 44% 56% 48%;
+            background: rgb(255 255 255 / 48%);
+            content: "";
+            transform: rotate(-8deg);
+        }
+        .hero-plush {
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 13px 10px rgb(133 87 111 / 15%));
+            font-size: clamp(7rem, 15vw, 10.5rem);
+            line-height: 1;
+            transform: rotate(5deg);
+        }
+        .sparkle { position: absolute; color: #d98db0; font-size: 1.5rem; }
+        .sparkle-one { top: 20px; right: 19%; }
+        .sparkle-two { bottom: 24px; left: 13%; font-size: 1.1rem; }
+        .collection-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .section-kicker { margin: 0 0 5px; color: #c16b8c; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .page-heading h2 { margin: 0; color: #63465a; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
+        .page-heading p { margin: 6px 0 0; color: var(--muted); }
+        .collection-note { color: var(--muted); font-size: .86rem; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 310px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+            gap: 19px;
+        }
+
+        .product-card, .cart-panel, .message-panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 9px 26px rgb(130 79 105 / 6%);
+        }
+
+        .product-card {
+            min-height: 370px;
+            padding: 12px 17px 17px;
+            display: flex;
+            flex-direction: column;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgb(130 79 105 / 11%); }
+        .product-art {
+            position: relative;
+            height: 164px;
+            margin: 0 -5px 15px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffedf3, #fff4e9);
+        }
+        .product-art::after {
+            position: absolute;
+            right: -25px;
+            bottom: -61px;
+            width: 142px;
+            height: 116px;
+            border-radius: 50%;
+            background: rgb(255 255 255 / 42%);
+            content: "";
+        }
+        .product-art[data-tone="1"] { background: linear-gradient(145deg, #f8eaff, #ffeef4); }
+        .product-art[data-tone="2"] { background: linear-gradient(145deg, #fff0dd, #ffebf0); }
+        .product-art[data-tone="3"] { background: linear-gradient(145deg, #eaf5ff, #f9eaff); }
+        .product-art[data-tone="4"] { background: linear-gradient(145deg, #fff0e8, #fff8df); }
+        .plush-emoji { z-index: 1; font-size: 5.65rem; filter: drop-shadow(0 8px 5px rgb(108 68 88 / 12%)); transition: transform .2s ease; }
+        .product-card:hover .plush-emoji { transform: scale(1.08) rotate(-4deg); }
+        .product-ribbon { position: absolute; z-index: 2; top: 10px; left: 10px; padding: 6px 9px; border-radius: 999px; background: rgb(255 255 255 / 88%); color: #a95b7d; font-size: .66rem; font-weight: 800; }
+
+        .product-card h3 { margin: 0 0 7px; color: #63465a; font-size: 1.05rem; }
+        .description { margin: 0 0 14px; color: var(--muted); font-size: .9rem; line-height: 1.5; flex: 1; }
+        .product-meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 13px; }
+        .price { color: #b25e81; font-weight: 800; font-size: 1.08rem; }
+        .stock { color: var(--muted); font-size: .76rem; text-align: right; }
+
+        button {
+            border: 0;
+            border-radius: 11px;
+            cursor: pointer;
+            font: inherit;
+            transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+        }
+
+        button:active { transform: translateY(1px); }
+        button:focus-visible, a:focus-visible { outline: 3px solid #e6a3bd; outline-offset: 3px; }
+
+        .add-button {
+            width: 100%;
+            padding: 10px 12px;
+            color: white;
+            background: var(--accent);
+            box-shadow: 0 5px 12px rgb(213 106 151 / 15%);
+            font-size: .86rem;
+            font-weight: 800;
+        }
+
+        .add-button:hover { background: var(--accent-dark); box-shadow: 0 7px 15px rgb(213 106 151 / 24%); }
+        .add-button:disabled { background: #d9cbd2; box-shadow: none; cursor: not-allowed; }
+
+        .cart-panel { position: sticky; top: 20px; overflow: hidden; }
+        .cart-heading { padding: 17px 18px; border-bottom: 1px solid var(--line); background: #fff8fb; display: flex; justify-content: space-between; align-items: center; }
+        .cart-heading h2 { margin: 0; color: #68475d; font-size: 1.05rem; }
+        .cart-count { padding: 5px 9px; border-radius: 999px; background: #fce5ee; color: #ad5c7e; font-size: .74rem; font-weight: 800; }
+        .cart-body { padding: 16px 18px; }
+        .cart-empty { margin: 4px 0; color: var(--muted); line-height: 1.6; }
+        .cart-item { padding: 12px 0; border-bottom: 1px solid var(--line); }
+        .cart-item:first-child { padding-top: 0; }
+        .cart-item-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+        .cart-item-name { color: #68475d; font-weight: 700; line-height: 1.35; }
+        .remove-button { background: transparent; color: var(--danger); padding: 2px 4px; font-size: .8rem; }
+        .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; }
+        .quantity-control { display: inline-flex; align-items: center; gap: 8px; }
+        .quantity-control button { width: 27px; height: 27px; background: #fbeaf1; color: #a95b7d; font-weight: 800; }
+        .quantity-control button:hover { background: #f6d7e4; }
+        .line-total { color: #68475d; font-weight: 700; font-size: .9rem; }
+        .cart-total { display: flex; justify-content: space-between; color: #68475d; font-weight: 800; padding: 16px 0 8px; }
+        .clear-button { margin-top: 10px; background: transparent; color: var(--muted); padding: 6px 0; font-size: .82rem; text-decoration: underline; }
+
+        .message-panel { padding: 22px; color: var(--muted); }
+        .error-panel { color: #842d2a; border-color: #edc6c3; background: #fff8f7; }
+        .retry-button { margin-top: 12px; padding: 8px 12px; background: var(--accent); color: white; }
+        .toast { min-height: 22px; margin: 0 0 12px; color: var(--accent-dark); font-size: .88rem; }
+
+        @media (max-width: 800px) {
+            .layout { grid-template-columns: 1fr; }
+            .cart-panel { position: static; grid-row: 1; }
+            .hero { padding: 34px; }
+        }
+
+        @media (max-width: 520px) {
+            main { padding-inline: 16px; }
+            .topbar { padding-inline: 16px; }
+            .topbar-right { gap: 10px; align-items: flex-end; flex-direction: column; }
+            .nav-link { display: none; }
+            .hero { min-height: 0; margin: 18px 0 36px; padding: 28px 24px 18px; grid-template-columns: 1fr; }
+            .hero h2 { font-size: 2.8rem; }
+            .hero-art { min-height: 170px; }
+            .hero-art::before { width: 190px; height: 155px; }
+            .hero-plush { font-size: 7.3rem; }
+            .collection-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<header class="topbar">
+    <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">♡</div>
+        <div>
+            <h1 class="brand">Mallow &amp; Moon</h1>
+            <p class="tagline">Little friends, big hugs</p>
+        </div>
+    </div>
+    <div class="topbar-right">
+        <a class="nav-link" href="#collection">Meet the plushies</a>
+        <a class="nav-link" href="#cart">Your cuddle bag ♡</a>
+        <div id="apiStatus" class="api-status" data-state="loading" aria-live="polite">Finding your new friend…</div>
+    </div>
+</header>
+
+<main>
+    <section class="hero" aria-label="Welcome to Mallow and Moon">
+        <div class="hero-copy">
+            <span class="eyebrow">✦ A little shop full of love</span>
+            <h2>Find your new <span>snuggle</span> buddy.</h2>
+            <p>Meet the softest, sweetest little friends. Each one is ready for cozy days, big dreams, and lots of hugs.</p>
+            <a class="hero-button" href="#collection">Find your plushie&nbsp; →</a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <span class="sparkle sparkle-one">✦</span>
+            <span class="sparkle sparkle-two">✧</span>
+            <span class="hero-plush">🧸</span>
+        </div>
+    </section>
+
+    <div id="collection" class="collection-heading">
+        <div class="page-heading">
+            <p class="section-kicker">The cuddle collection</p>
+            <h2>Pick your new bestie</h2>
+            <p>Every plushie comes with a little extra love.</p>
+        </div>
+        <span class="collection-note">♡ Made for hugs, kept forever</span>
+    </div>
+
+    <div class="layout">
+        <section aria-label="Product list">
+            <p id="toast" class="toast" aria-live="polite"></p>
+            <div id="products" class="product-grid" aria-live="polite"></div>
+            <div id="loadMessage" class="message-panel">Loading product list…</div>
+        </section>
+
+        <aside id="cart" class="cart-panel" aria-label="Shopping cart">
+            <div class="cart-heading">
+                <h2>Your cuddle bag ♡</h2>
+                <span id="cartCount" class="cart-count">0 items</span>
+            </div>
+            <div class="cart-body">
+                <p id="cartEmpty" class="cart-empty">Your cuddle bag is waiting for its first little friend.</p>
+                <div id="cartItems"></div>
+                <div id="cartSummary" hidden>
+                    <div class="cart-total"><span>Your total</span><span id="cartTotal">₪0.00</span></div>
+                    <button id="clearCart" class="clear-button" type="button">Empty cuddle bag</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<script>
+    const PRODUCTS_URL = "/api/products";
+    const CART_STORAGE_KEY = "webstore.cart.v1";
+
+    const productsElement = document.getElementById("products");
+    const loadMessageElement = document.getElementById("loadMessage");
+    const apiStatusElement = document.getElementById("apiStatus");
+    const cartItemsElement = document.getElementById("cartItems");
+    const cartEmptyElement = document.getElementById("cartEmpty");
+    const cartSummaryElement = document.getElementById("cartSummary");
+    const cartCountElement = document.getElementById("cartCount");
+    const cartTotalElement = document.getElementById("cartTotal");
+    const toastElement = document.getElementById("toast");
+
+    const money = new Intl.NumberFormat("en-IL", {
+        style: "currency",
+        currency: "ILS"
+    });
+
+    let products = [];
+    let cart = readCart();
+
+    function readCart() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+            return Array.isArray(saved) ? saved : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function saveCart() {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\"": "&quot;",
+            "'": "&#39;"
+        })[character]);
+    }
+
+    function formatPrice(value) {
+        return money.format(Number(value) || 0);
+    }
+
+    function showToast(message) {
+        toastElement.textContent = message;
+        window.setTimeout(() => {
+            if (toastElement.textContent === message) toastElement.textContent = "";
+        }, 2500);
+    }
+
+    function renderProducts() {
+        if (products.length === 0) {
+            productsElement.innerHTML = "";
+            loadMessageElement.hidden = false;
+            loadMessageElement.textContent = "No products were found in the database.";
+            return;
+        }
+
+        loadMessageElement.hidden = true;
+        productsElement.innerHTML = products.map(product => {
+            const stock = Number(product.stockQuantity) || 0;
+            const plushies = ["🐰", "🧸", "🐱", "🐻‍❄️", "🐶", "🐸"];
+            const plushie = plushies[(Number(product.id) - 1) % plushies.length] || plushies[0];
+            const tone = (Number(product.id) - 1) % 5;
+            return `
+                <article class="product-card">
+                    <div class="product-art" data-tone="${tone}" aria-hidden="true">
+                        <span class="product-ribbon">A little love inside</span>
+                        <span class="plush-emoji">${plushie}</span>
+                    </div>
+                    <h3>${escapeHtml(product.name)}</h3>
+                    <p class="description">${escapeHtml(product.description || "No description provided.")}</p>
+                    <div class="product-meta">
+                        <span class="price">${formatPrice(product.price)}</span>
+                        <span class="stock">${stock > 0 ? `${stock} ready for hugs` : "Waiting for a restock"}</span>
+                    </div>
+                    <button class="add-button" type="button" data-add="${Number(product.id)}" ${stock < 1 ? "disabled" : ""}>
+                        ${stock < 1 ? "All snuggled up" : "Add to cuddle bag"}
+                    </button>
+                </article>`;
+        }).join("");
+    }
+
+    function renderCart() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        cartCountElement.textContent = `${totalItems} ${totalItems === 1 ? "item" : "items"}`;
+        cartEmptyElement.hidden = cart.length > 0;
+        cartSummaryElement.hidden = cart.length === 0;
+        cartTotalElement.textContent = formatPrice(totalPrice);
+
+        cartItemsElement.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-top">
+                    <span class="cart-item-name">${escapeHtml(item.name)}</span>
+                    <button class="remove-button" type="button" data-remove="${Number(item.id)}" aria-label="Remove ${escapeHtml(item.name)}">Remove</button>
+                </div>
+                <div class="cart-item-bottom">
+                    <div class="quantity-control" aria-label="Quantity controls">
+                        <button type="button" data-change="-1" data-id="${Number(item.id)}" aria-label="Decrease quantity">−</button>
+                        <span>${item.quantity}</span>
+                        <button type="button" data-change="1" data-id="${Number(item.id)}" aria-label="Increase quantity">+</button>
+                    </div>
+                    <span class="line-total">${formatPrice(item.price * item.quantity)}</span>
+                </div>
+            </div>`).join("");
+    }
+
+    function addToCart(productId) {
+        const product = products.find(item => Number(item.id) === productId);
+        if (!product) return;
+
+        const stock = Number(product.stockQuantity) || 0;
+        const existing = cart.find(item => Number(item.id) === productId);
+        const currentQuantity = existing ? existing.quantity : 0;
+
+        if (currentQuantity >= stock) {
+            showToast("You cannot add more than the available stock.");
+            return;
+        }
+
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({
+                id: Number(product.id),
+                name: product.name,
+                price: Number(product.price),
+                quantity: 1
+            });
+        }
+
+        saveCart();
+        renderCart();
+        showToast(`${product.name} added to cart.`);
+    }
+
+    function changeQuantity(productId, change) {
+        const item = cart.find(cartItem => Number(cartItem.id) === productId);
+        if (!item) return;
+
+        const nextQuantity = item.quantity + change;
+        if (nextQuantity < 1) {
+            cart = cart.filter(cartItem => Number(cartItem.id) !== productId);
+        } else {
+            const product = products.find(productItem => Number(productItem.id) === productId);
+            if (change > 0 && product && nextQuantity > Number(product.stockQuantity)) {
+                showToast("You cannot add more than the available stock.");
+                return;
+            }
+            item.quantity = nextQuantity;
+        }
+
+        saveCart();
+        renderCart();
+    }
+
+    async function loadProducts() {
+        apiStatusElement.dataset.state = "loading";
+        apiStatusElement.textContent = "Connecting to product API…";
+        loadMessageElement.hidden = false;
+        loadMessageElement.className = "message-panel";
+        loadMessageElement.textContent = "Loading product list…";
+
+        try {
+            const response = await fetch(PRODUCTS_URL, {
+                headers: { "Accept": "application/json" }
+            });
+            if (!response.ok) {
+                throw new Error(`The product API returned HTTP ${response.status}.`);
+            }
+
+            products = await response.json();
+            if (!Array.isArray(products)) {
+                throw new Error("The product API response was not a JSON array.");
+            }
+
+            cart = cart.filter(item => products.some(product => Number(product.id) === Number(item.id)));
+            cart = cart.map(item => {
+                const product = products.find(productItem => Number(productItem.id) === Number(item.id));
+                return {
+                    id: Number(product.id),
+                    name: product.name,
+                    price: Number(product.price),
+                    quantity: Math.min(Number(item.quantity) || 1, Number(product.stockQuantity) || 0)
+                };
+            }).filter(item => item.quantity > 0);
+
+            saveCart();
+            apiStatusElement.dataset.state = "ready";
+            apiStatusElement.textContent = "Product API connected";
+            renderProducts();
+            renderCart();
+        } catch (error) {
+            apiStatusElement.dataset.state = "error";
+            apiStatusElement.textContent = "Could not load products";
+            productsElement.innerHTML = "";
+            loadMessageElement.hidden = false;
+            loadMessageElement.className = "message-panel error-panel";
+            loadMessageElement.innerHTML = `${escapeHtml(error.message)}<br><button class="retry-button" id="retryLoad" type="button">Try again</button>`;
+        }
+    }
+
+    productsElement.addEventListener("click", event => {
+        const button = event.target.closest("[data-add]");
+        if (button) addToCart(Number(button.dataset.add));
+    });
+
+    cartItemsElement.addEventListener("click", event => {
+        const removeButton = event.target.closest("[data-remove]");
+        if (removeButton) {
+            const productId = Number(removeButton.dataset.remove);
+            cart = cart.filter(item => Number(item.id) !== productId);
+            saveCart();
+            renderCart();
+            return;
+        }
+
+        const changeButton = event.target.closest("[data-change]");
+        if (changeButton) {
+            changeQuantity(Number(changeButton.dataset.id), Number(changeButton.dataset.change));
+        }
+    });
+
+    document.getElementById("clearCart").addEventListener("click", () => {
+        cart = [];
+        saveCart();
+        renderCart();
+    });
+
+    loadMessageElement.addEventListener("click", event => {
+        if (event.target.id === "retryLoad") loadProducts();
+    });
+
+    renderCart();
+    loadProducts();
+</script>
+</body>
+</html>
