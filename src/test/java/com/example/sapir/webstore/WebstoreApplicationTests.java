@@ -44,13 +44,13 @@ class WebstoreApplicationTests {
 
     @Test
     void productsCanBeCreatedUpdatedAndDeleted() {
-        Product created = products.createProduct(product("Mouse", "89.90", 25));
+        Product created = products.createProduct(product("Mallow Bunny", "89.90", 25));
         assertThat(created.getId()).isNotNull();
         assertThat(products.getAllProducts()).hasSize(1);
 
-        products.updateProduct(created.getId(), product("Updated Mouse", "79.50", 20));
+        products.updateProduct(created.getId(), product("Updated Mallow Bunny", "79.50", 20));
         Product updated = products.getProductById(created.getId());
-        assertThat(updated.getName()).isEqualTo("Updated Mouse");
+        assertThat(updated.getName()).isEqualTo("Updated Mallow Bunny");
         assertThat(updated.getPrice()).isEqualByComparingTo("79.50");
         assertThat(updated.getStockQuantity()).isEqualTo(20);
 
@@ -96,9 +96,9 @@ class WebstoreApplicationTests {
     void checkoutReducesStockClearsTheCartAndPreservesThePurchasePrice() {
         Long cartId = transactions.execute(status -> {
             StoreUser user = userRepository.save(new StoreUser("student", "student@example.com"));
-            Product mouse = products.createProduct(product("Mouse", "89.90", 5));
+            Product bunny = products.createProduct(product("Mallow Bunny", "89.90", 5));
             ShoppingCart cart = carts.createCartForUser(user.getId());
-            carts.addProduct(cart.getId(), mouse.getId(), 2);
+            carts.addProduct(cart.getId(), bunny.getId(), 2);
             return cart.getId();
         });
 
@@ -129,11 +129,11 @@ class WebstoreApplicationTests {
     void failedCheckoutRollsBackAllStockChangesAndKeepsTheCart() {
         Long cartId = transactions.execute(status -> {
             StoreUser user = userRepository.save(new StoreUser("student", "student@example.com"));
-            Product mouse = products.createProduct(product("Mouse", "89.90", 5));
-            Product keyboard = products.createProduct(product("Keyboard", "249.00", 1));
+            Product bunny = products.createProduct(product("Mallow Bunny", "89.90", 5));
+            Product bear = products.createProduct(product("Peachy Pudding Bear", "129.00", 1));
             ShoppingCart cart = carts.createCartForUser(user.getId());
-            carts.addProduct(cart.getId(), mouse.getId(), 2);
-            carts.addProduct(cart.getId(), keyboard.getId(), 2);
+            carts.addProduct(cart.getId(), bunny.getId(), 2);
+            carts.addProduct(cart.getId(), bear.getId(), 2);
             return cart.getId();
         });
 
@@ -147,13 +147,13 @@ class WebstoreApplicationTests {
             ShoppingCart cart = carts.getCartById(cartId);
             assertThat(cart.getItems()).hasSize(2);
             for (CartItem item : cart.getItems()) {
-                int expectedStock = item.getProduct().getName().equals("Mouse") ? 5 : 1;
+                int expectedStock = item.getProduct().getName().equals("Mallow Bunny") ? 5 : 1;
                 assertThat(item.getProduct().getStockQuantity()).isEqualTo(expectedStock);
             }
         });
     }
 
     private Product product(String name, String price, int quantity) {
-        return new Product(name, "A test product", new BigDecimal(price), quantity);
+        return new Product(name, "A soft plushie friend", new BigDecimal(price), quantity);
     }
 }

@@ -45,7 +45,7 @@ requests a program accepts. JSON is the text format carrying product data:
 
 ```json
 [
-  {"id": 1, "name": "Wireless Mouse", "description": "...", "price": 89.90, "stockQuantity": 25}
+  {"id": 1, "name": "Mallow Bunny", "description": "A floppy-eared cuddle buddy for slow, cozy mornings.", "price": 89.90, "stockQuantity": 25}
 ]
 ```
 

@@ -1,15 +1,101 @@
 {
   "info": {
     "_postman_id": "5b102f6e-8867-4a0f-9654-94057217189e",
-    "name": "Mallow & Moon - Tutorial Product API",
-    "description": "Thunder Client can import this Postman v2.1 collection. Covers the tutorial's product API checks: create a product, list products, and fetch one product. Cart and order endpoints are not part of the tutorial API.",
+    "name": "Mallow & Moon - Plushie Boutique API",
+    "description": "Thunder Client can import this Postman v2.1 collection. Covers all Mallow & Moon plushie product API operations: list plushies, fetch one plushie, create, update, and delete.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
+      "name": "List plushies (GET)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "Expected: 200 OK and a JSON array of plushie products (Mallow Bunny, Peachy Pudding Bear, Cloudlet Kitten, Strawberry Mochi Pup, Sleepy Star Axolotl)."
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch one plushie by id (GET)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/products/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "{{productId}}"
+          ]
+        },
+        "description": "Expected: 200 OK and one JSON plushie product (defaults to id 1: Mallow Bunny)."
+      },
+      "response": []
+    },
+    {
       "name": "Create plushie (POST)",
       "request": {
         "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Honeybee Frog Plush\",\n  \"description\": \"A chubby pastel frog dressed in a fuzzy honeybee hoodie.\",\n  \"price\": 109.90,\n  \"stockQuantity\": 15\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "Expected: 201 Created and a JSON plushie product containing its generated id."
+      },
+      "response": []
+    },
+    {
+      "name": "Update plushie (PUT)",
+      "request": {
+        "method": "PUT",
         "header": [
           {
             "key": "Content-Type",
@@ -30,54 +116,6 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/api/products",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "products"
-          ]
-        },
-        "description": "Expected: 201 Created and a JSON product containing its generated id. Copy that id into the productId collection variable before running Fetch one product."
-      },
-      "response": []
-    },
-    {
-      "name": "List products (GET)",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/products",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "products"
-          ]
-        },
-        "description": "Expected: 200 OK and a JSON array of products."
-      },
-      "response": []
-    },
-    {
-      "name": "Fetch one product by id (GET)",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
-        "url": {
           "raw": "{{baseUrl}}/api/products/{{productId}}",
           "host": [
             "{{baseUrl}}"
@@ -88,7 +126,32 @@
             "{{productId}}"
           ]
         },
-        "description": "Expected: 200 OK and one JSON product. Set productId to the id returned by Create plushie."
+        "description": "Expected: 200 OK and the updated plushie JSON."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete plushie (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/products/6",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "6"
+          ]
+        },
+        "description": "Expected: 204 No Content when deleting an extra created plushie."
       },
       "response": []
     }
