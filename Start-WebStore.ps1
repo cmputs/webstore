@@ -13,10 +13,12 @@ Push-Location -LiteralPath $PSScriptRoot
 try {
     Write-Host 'Starting WebStore. Open http://localhost:8080/ after the Started message.'
     Write-Host 'Press Ctrl+C to stop the server.'
-    if (Test-Path -LiteralPath '.\webstore.jar') {
+    if ((Test-Path -LiteralPath '.\pom.xml') -and (Test-Path -LiteralPath '.\mvnw.cmd')) {
+        & '.\mvnw.cmd' spring-boot:run
+    } elseif (Test-Path -LiteralPath '.\webstore.jar') {
         & java -jar '.\webstore.jar'
     } else {
-        & '.\mvnw.cmd' spring-boot:run
+        throw 'Could not find pom.xml with mvnw.cmd or the bundled webstore.jar.'
     }
 } finally {
     Pop-Location

@@ -1,5 +1,6 @@
 package com.example.sapir.webstore;
 
+import com.example.sapir.webstore.dto.RegisterRequest;
 import com.example.sapir.webstore.entity.*;
 import com.example.sapir.webstore.repository.*;
 import com.example.sapir.webstore.service.*;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 
@@ -33,6 +36,9 @@ class WebstoreApplicationTests {
     @Autowired CustomerOrderRepository orderRepository;
     @Autowired OrderItemRepository orderItemRepository;
     @Autowired TransactionTemplate transactions;
+    @Autowired StoreUserService storeUsers;
+    @Autowired StoreUserDetailsService storeUserDetails;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void clearTestDatabase() {
@@ -43,6 +49,39 @@ class WebstoreApplicationTests {
         userRepository.deleteAll();
         productRepository.deleteAll();
         categoryRepository.deleteAll();
+    }
+
+    @Test
+    void registrationStoresOnlyABcryptPasswordHashAndEnablesLoginLookup() {
+        storeUsers.register(new RegisterRequest("student", "student@example.com", "DemoPass123"));
+
+        StoreUser saved = userRepository.findByUsername("student").orElseThrow();
+        assertThat(saved.getPasswordHash()).hasSize(60).startsWith("$2");
+        assertThat(saved.getPasswordHash()).isNotEqualTo("DemoPass123");
+        assertThat(saved.getRole()).isEqualTo(UserRole.CUSTOMER);
+        assertThat(passwordEncoder.matches("DemoPass123", saved.getPasswordHash())).isTrue();
+        assertThat(storeUserDetails.loadUserByUsername("student"))
+                .satisfies(user -> {
+                    assertThat(user.getUsername()).isEqualTo("student");
+                    assertThat(user.getAuthorities()).extracting("authority").containsExactly("ROLE_CUSTOMER");
+                });
+    }
+
+    @Test
+    void registrationRejectsDuplicateUserDetails() {
+        storeUsers.register(new RegisterRequest("student", "student@example.com", "DemoPass123"));
+
+        ResponseStatusException error = assertThrows(ResponseStatusException.class,
+                () -> storeUsers.register(new RegisterRequest("student", "other@example.com", "AnotherPass123")));
+        assertThat(error.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(userRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    void usersWithoutPasswordHashesCannotLogIn() {
+        userRepository.save(new StoreUser("legacy", "legacy@example.com"));
+
+        assertThrows(UsernameNotFoundException.class, () -> storeUserDetails.loadUserByUsername("legacy"));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.example.sapir.webstore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -33,6 +34,14 @@ public class StoreUser {
     @Size(max = 150)
     @Column(nullable = false, unique = true, length = 150)
     private String email;
+
+    @JsonIgnore
+    @Column(name = "password_hash", length = 60)
+    private String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private UserRole role = UserRole.CUSTOMER;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private ShoppingCart shoppingCart;

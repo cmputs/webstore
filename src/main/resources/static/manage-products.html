@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#fff4f8">
+    <meta name="theme-color" content="#fff5f7">
     <title>ניהול מוצרים | Mallow &amp; Moon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             color-scheme: light;
@@ -63,7 +66,7 @@
             padding: 22px 26px;
             border-radius: 22px;
             border: 1px solid #f6dce7;
-            background: linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+            background: #e8dfd1;
             color: #6e4c61;
         }
         .panel {
@@ -109,13 +112,96 @@
         #pageMessage { padding: 20px; color: var(--muted); }
         #pageMessage.error { color: #842d2a; background: #fff8f7; }
         @media(max-width: 600px) { main { margin-top: 20px; padding-inline: 12px; } }
+
+        :root {
+            --ink: #392b31;
+            --muted: #796870;
+            --line: #f0dce3;
+            --surface: #ffffff;
+            --page: #fff9fa;
+            --accent: #d66b8e;
+            --accent-dark: #a74468;
+        }
+        body {
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Manrope", "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        header {
+            min-height: 72px;
+            background: var(--surface);
+            border-bottom-color: var(--line);
+        }
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #fbe8ee;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+        header h1 {
+            color: var(--ink);
+            font-family: inherit;
+            font-weight: 500;
+        }
+        header a {
+            border-radius: 4px;
+            border-color: var(--line);
+            background: transparent;
+            color: var(--ink);
+        }
+        header a:hover { background: #fff0f4; color: var(--ink); }
+        main { max-width: 1180px; }
+        .intro {
+            border: 0;
+            border-right: 2px solid var(--accent);
+            border-radius: 0;
+            background: #f9e9ee;
+            color: var(--ink);
+        }
+        .panel {
+            border: 0;
+            border-top: 1px solid var(--line);
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        th, td { border-bottom-color: var(--line); }
+        th { background: #f9e9ee; color: var(--ink); }
+        .product-name { color: var(--ink); }
+        select {
+            min-height: 40px;
+            border-color: #c9c4bb;
+            border-radius: 4px;
+            background: var(--surface);
+        }
+        button {
+            border-radius: 4px;
+            background: var(--accent-dark);
+            box-shadow: none;
+        }
+        button:hover { background: #873853; }
+        button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid #d5afb1; outline-offset: 2px; }
+        .row-status.success { color: #3d684d; }
+        .row-status.error { color: #a13e43; }
+        #pageMessage { color: var(--muted); }
+        #pageMessage.error { color: #842d2a; background: transparent; }
+        tbody tr:nth-child(even) { background: #fff9fa; }
+        .table-wrap { background: var(--surface); }
+        @media(max-width: 600px) {
+            th, td { padding: 11px 10px; }
+            header { padding-inline: 16px; }
+        }
     </style>
 </head>
 <body>
 <header>
     <div class="brand-wrap">
         <div class="brand-mark" aria-hidden="true">♡</div>
-        <h1>Mallow &amp; Moon — ניהול קטגוריות המוצרים</h1>
+        <h1>Mallow &amp; Moon | ניהול קטגוריות המוצרים</h1>
     </div>
     <div class="header-links">
         <a href="/products-by-category.html">מוצרים לפי קטגוריה</a>
@@ -123,7 +209,7 @@
     </div>
 </header>
 <main>
-    <p class="intro">לכל בובת פרווה אפשר לבחור קטגוריה אחת או לבחור „ללא קטגוריה”. לחצו על „שמירת שינוי” כדי לעדכן את המוצר במסד הנתונים.</p>
+    <p class="intro">בחרו קטגוריה לכל מוצר ושמרו כדי לעדכן את הרשומה. אפשר גם להשאיר מוצר ללא קטגוריה.</p>
     <section class="panel" aria-label="רשימת מוצרים לניהול">
         <div id="pageMessage" aria-live="polite">טוען מוצרים וקטגוריות…</div>
         <div class="table-wrap" hidden>
@@ -135,7 +221,7 @@
                         <th scope="col">מלאי</th>
                         <th scope="col">קטגוריה</th>
                         <th scope="col">פעולה</th>
-                        <th scope="col">מצב</th>
+                        <th scope="col">סטטוס</th>
                     </tr>
                 </thead>
                 <tbody id="productsBody"></tbody>

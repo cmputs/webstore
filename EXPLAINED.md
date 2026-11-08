@@ -140,20 +140,23 @@ Browser: JavaScript builds the product cards
 Read these four files in that order: ProductController, ProductService,
 ProductRepository, Product. They describe the first complete feature.
 
-## 8. Understand the store page
+## 8. Understand the store page and account controls
 
 Open src/main/resources/static/index.html. Spring Boot serves this file when
 you open http://localhost:8080/.
 
 The JavaScript function loadProducts() calls fetch("/api/products"). It reads
-the JSON response and renderProducts() creates the cards. Clicking Add to cart
-updates a JavaScript array. saveCart() serializes that array into localStorage,
-so the same browser can restore its cart after refreshing the page.
+the JSON response and renderProducts() creates the cards. On page load,
+refreshAccountStatus() calls GET /api/auth/me to show whether the browser's
+current session is signed in. The account dialog posts registration details to
+/api/auth/register and submits login credentials to Spring Security's /login.
 
-This is a second storage location: products are in MySQL, while this page's cart
-is in localStorage. The page does not call ShoppingCartService or
-CustomerOrderService. Those services need HTTP controllers before a browser
-can use them through the server.
+The browser first requests /api/auth/csrf and sends the returned token with
+registration and logout. Spring Security creates a server-side session after
+successful login; the browser keeps its session identifier in a cookie and
+sends it on later requests. Signing out ends the session but does not delete
+the StoreUser row. ShoppingCartService and CustomerOrderService still have no
+HTTP controllers, so the store page has no cart or checkout feature.
 
 ## 9. Understand product categories
 
@@ -211,18 +214,41 @@ occurs. One integration test deliberately causes insufficient stock and verifies
 that no partial order or stock reduction remains.
 
 The other tests show the services being used directly from Java. The category
-pages extend the product API and leave the browser-based cart unchanged.
+pages extend the product API; shopping-cart and order services remain separate
+from the browser because the project does not define cart or order endpoints.
+
+## 10. Understand authentication and sessions
+
+StoreUser adds a nullable passwordHash mapped to password_hash. It is nullable
+so older user rows remain valid, but StoreUserDetailsService refuses to
+authenticate an account without a hash. StoreUserService validates password
+length for BCrypt, encodes the password, and saves the user. The raw password
+is never stored.
+
+SecurityConfig allows public catalog reads, registration, and the session
+status/token endpoints. Other requests require authentication, and CSRF
+protection remains enabled for state-changing requests. AuthController exposes
+registration, the current session's identity, and a CSRF token. Spring Security
+checks login credentials against StoreUserDetailsService and keeps the
+authenticated identity in a server-side session.
+
+Two browser profiles have separate session cookies, even though they connect
+to the same database. Logging out one profile ends only that session; the
+registered account remains in MySQL.
 
 ## Recommended reading order
 
 1. WebstoreApplication.java - where it starts.
-2. ProductController.java - which requests exist.
-3. ProductService.java - what those requests do.
-4. ProductRepository.java - how data is accessed.
-5. Product.java - what is stored.
-6. static/index.html - how the page calls the API.
-7. The remaining entities and services - relationships and transactions.
+2. SecurityConfig.java - which requests are public and how sessions are protected.
+3. AuthController.java - which account endpoints exist.
+4. StoreUserService.java and StoreUserDetailsService.java - registration and login lookup.
+5. ProductController.java - which catalog requests exist.
+6. ProductService.java - what those requests do.
+7. ProductRepository.java - how data is accessed.
+8. Product.java - what is stored.
+9. static/index.html - how the page calls the API.
+10. The remaining entities and services - relationships and transactions.
 
-Sample-data initialization, category browsing and assignment, and automated
-checks extend the original store while keeping its product, cart, and order
-behavior.
+Account registration and session authentication, sample-data initialization,
+category browsing and assignment, and automated checks extend the store's
+catalog and data services.

@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#fff4f8">
-    <title>מוצרים לפי קטגוריה | Mallow &amp; Moon</title>
+    <meta name="theme-color" content="#fff5f7">
+    <title>מוצרים לפי קטגוריה: Mallow &amp; Moon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             color-scheme: light;
@@ -63,7 +66,7 @@
             padding: 24px 28px;
             border-radius: 24px;
             border: 1px solid #f6dce7;
-            background: linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+            background: #e8dfd1;
         }
         .lead-banner p { margin: 0; color: #6e4c61; font-size: 1rem; }
         .filter, .product-card, .message {
@@ -99,7 +102,7 @@
             display: grid;
             place-items: center;
             border-radius: 15px;
-            background: linear-gradient(145deg, #ffedf3, #fff4e9);
+            background: #e7ddd0;
             font-size: 4.8rem;
         }
         .category-pill {
@@ -121,13 +124,122 @@
         .message { padding: 20px; margin-top: 20px; color: var(--muted); }
         .error { color: #842d2a; border-color: #edc6c3; background: #fff8f7; }
         @media(max-width: 500px) { main { margin-top: 20px; } select { width: 100%; } }
+
+        :root {
+            --ink: #392b31;
+            --muted: #796870;
+            --line: #f0dce3;
+            --surface: #ffffff;
+            --page: #fff9fa;
+            --accent: #d66b8e;
+            --accent-dark: #a74468;
+        }
+        body {
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Manrope", "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        header {
+            min-height: 72px;
+            background: var(--surface);
+            border-bottom-color: var(--line);
+        }
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #fbe8ee;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+        header h1 {
+            color: var(--ink);
+            font-family: inherit;
+            font-weight: 500;
+        }
+        header a {
+            border-radius: 4px;
+            border-color: var(--line);
+            background: transparent;
+            color: var(--ink);
+        }
+        header a:hover {         background: #fff0f4; color: var(--ink); }
+        main { max-width: 1180px; }
+        .lead-banner {
+            border: 0;
+            border-right: 2px solid var(--accent);
+            border-radius: 0;
+            background: #f9e9ee;
+        }
+        .lead-banner p { color: var(--ink); }
+        .filter, .product-card, .message {
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .filter {
+            border: 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: transparent;
+            padding: 14px 0;
+        }
+        label { color: var(--ink); }
+        select {
+            min-height: 40px;
+            border-color: #c9c4bb;
+            border-radius: 4px;
+            background: var(--surface);
+        }
+        .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+        .product-card {
+            padding: 0 0 14px;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: var(--surface);
+        }
+        .product-card:hover { transform: none; box-shadow: none; }
+        .product-art {
+            height: auto;
+            aspect-ratio: 1.25;
+            border-radius: 0;
+            background: #f8edf1;
+            font-size: 4.5rem;
+        }
+        .product-art[data-tone="1"] { background: #f2e7e5; }
+        .product-art[data-tone="2"] { background: #f6eee4; }
+        .product-art[data-tone="3"] { background: #e9eeeb; }
+        .product-art[data-tone="4"] { background: #f2e5eb; }
+        .category-pill {
+            margin: 0 14px 5px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--accent-dark);
+        }
+        .product-card h2 { margin: 0 14px 6px; color: var(--ink); font-family: inherit; font-weight: 650; }
+        .description { min-height: 0; margin: 0 14px 12px; color: var(--muted); }
+        .meta { margin: 0 14px; border-top-color: var(--line); }
+        .price { color: var(--ink); }
+        .stock, #status, .message { color: var(--muted); }
+        .error { color: #842d2a; }
+        @media(max-width: 760px) {
+            .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media(max-width: 500px) {
+            .grid { grid-template-columns: 1fr; }
+            header { padding-inline: 16px; }
+            main { padding-inline: 16px; }
+        }
     </style>
 </head>
 <body>
 <header>
     <div class="brand-wrap">
         <div class="brand-mark" aria-hidden="true">♡</div>
-        <h1>Mallow &amp; Moon — מוצרים לפי קטגוריה</h1>
+        <h1>Mallow &amp; Moon | מוצרים לפי קטגוריה</h1>
     </div>
     <div class="header-links">
         <a href="/manage-products.html">ניהול קטגוריות מוצרים</a>
@@ -136,14 +248,14 @@
 </header>
 <main>
     <div class="lead-banner">
-        <p>בחרו קטגוריה כדי להציג את בובות הפרווה שמשויכות אליה. אפשר גם להציג את כל המוצרים או מוצרים ללא קטגוריה.</p>
+        <p>בחרו קטגוריה כדי לראות את המוצרים המשויכים אליה, או הציגו את כל המוצרים ואת אלה שעדיין אינם משויכים.</p>
     </div>
     <section class="filter" aria-label="סינון מוצרים לפי קטגוריה">
         <label for="categorySelect">קטגוריה:</label>
         <select id="categorySelect" disabled>
             <option value="">טוען קטגוריות…</option>
         </select>
-        <span id="status" aria-live="polite">מתחבר לשרת…</span>
+        <span id="status" aria-live="polite">מתחבר לשרת...</span>
     </section>
     <section id="products" class="grid" aria-live="polite"></section>
     <p id="message" class="message" hidden></p>
@@ -175,6 +287,7 @@
 
             const art = document.createElement("div");
             art.className = "product-art";
+            art.dataset.tone = String((Number(product.id) - 1) % 5);
             art.setAttribute("aria-hidden", "true");
             art.textContent = plushies[(Number(product.id) - 1) % plushies.length] || plushies[0];
 

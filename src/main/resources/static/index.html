@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#fff4f8">
-    <title>Mallow &amp; Moon — Plushie Boutique</title>
+    <meta name="theme-color" content="#fff5f7">
+    <title>Mallow &amp; Moon | Plushie Boutique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             color-scheme: light;
@@ -87,10 +90,7 @@
             overflow: hidden;
             border: 1px solid #f6dce7;
             border-radius: 30px;
-            background:
-                radial-gradient(ellipse at 82% 18%, rgb(255 255 255 / 82%) 0 5%, transparent 5.5%),
-                radial-gradient(ellipse at 88% 82%, rgb(255 255 255 / 68%) 0 4%, transparent 4.5%),
-                linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+            background: #f9e9ee;
         }
         .hero-copy { position: relative; z-index: 1; }
         .eyebrow {
@@ -111,7 +111,7 @@
             max-width: 510px;
             margin: 17px 0 12px;
             color: #673f59;
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: inherit;
             font-size: clamp(2.4rem, 5vw, 4rem);
             font-weight: 500;
             letter-spacing: -.055em;
@@ -169,7 +169,7 @@
             margin-bottom: 16px;
         }
         .section-kicker { margin: 0 0 5px; color: #c16b8c; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-        .page-heading h2 { margin: 0; color: #63465a; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
+        .page-heading h2 { margin: 0; color: #63465a; font-family: inherit; font-size: 2rem; font-weight: 600; }
         .page-heading p { margin: 6px 0 0; color: var(--muted); }
         .collection-note { color: var(--muted); font-size: .86rem; }
 
@@ -203,7 +203,7 @@
 
         .layout {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 310px;
+            grid-template-columns: minmax(0, 1fr);
             gap: 24px;
             align-items: start;
         }
@@ -214,7 +214,7 @@
             gap: 19px;
         }
 
-        .product-card, .cart-panel, .message-panel {
+        .product-card, .message-panel {
             background: var(--surface);
             border: 1px solid var(--line);
             border-radius: 20px;
@@ -237,7 +237,7 @@
             place-items: center;
             overflow: hidden;
             border-radius: 15px;
-            background: linear-gradient(145deg, #ffedf3, #fff4e9);
+            background: #e7ddd0;
         }
         .product-art::after {
             position: absolute;
@@ -249,10 +249,10 @@
             background: rgb(255 255 255 / 42%);
             content: "";
         }
-        .product-art[data-tone="1"] { background: linear-gradient(145deg, #f8eaff, #ffeef4); }
-        .product-art[data-tone="2"] { background: linear-gradient(145deg, #fff0dd, #ffebf0); }
-        .product-art[data-tone="3"] { background: linear-gradient(145deg, #eaf5ff, #f9eaff); }
-        .product-art[data-tone="4"] { background: linear-gradient(145deg, #fff0e8, #fff8df); }
+        .product-art[data-tone="1"] { background: #e5d8d0; }
+        .product-art[data-tone="2"] { background: #e8dfcb; }
+        .product-art[data-tone="3"] { background: #dce2dc; }
+        .product-art[data-tone="4"] { background: #e4d9df; }
         .plush-emoji { z-index: 1; font-size: 5.65rem; filter: drop-shadow(0 8px 5px rgb(108 68 88 / 12%)); transition: transform .2s ease; }
         .product-card:hover .plush-emoji { transform: scale(1.08) rotate(-4deg); }
         .product-ribbon { position: absolute; z-index: 2; top: 10px; left: 10px; padding: 6px 9px; border-radius: 999px; background: rgb(255 255 255 / 88%); color: #a95b7d; font-size: .66rem; font-weight: 800; }
@@ -285,38 +285,6 @@
         button:active { transform: translateY(1px); }
         button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid #e6a3bd; outline-offset: 3px; }
 
-        .add-button {
-            width: 100%;
-            padding: 10px 12px;
-            color: white;
-            background: var(--accent);
-            box-shadow: 0 5px 12px rgb(213 106 151 / 15%);
-            font-size: .86rem;
-            font-weight: 800;
-        }
-
-        .add-button:hover { background: var(--accent-dark); box-shadow: 0 7px 15px rgb(213 106 151 / 24%); }
-        .add-button:disabled { background: #d9cbd2; box-shadow: none; cursor: not-allowed; }
-
-        .cart-panel { position: sticky; top: 20px; overflow: hidden; }
-        .cart-heading { padding: 17px 18px; border-bottom: 1px solid var(--line); background: #fff8fb; display: flex; justify-content: space-between; align-items: center; }
-        .cart-heading h2 { margin: 0; color: #68475d; font-size: 1.05rem; }
-        .cart-count { padding: 5px 9px; border-radius: 999px; background: #fce5ee; color: #ad5c7e; font-size: .74rem; font-weight: 800; }
-        .cart-body { padding: 16px 18px; }
-        .cart-empty { margin: 4px 0; color: var(--muted); line-height: 1.6; }
-        .cart-item { padding: 12px 0; border-bottom: 1px solid var(--line); }
-        .cart-item:first-child { padding-top: 0; }
-        .cart-item-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
-        .cart-item-name { color: #68475d; font-weight: 700; line-height: 1.35; }
-        .remove-button { background: transparent; color: var(--danger); padding: 2px 4px; font-size: .8rem; }
-        .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; }
-        .quantity-control { display: inline-flex; align-items: center; gap: 8px; }
-        .quantity-control button { width: 27px; height: 27px; background: #fbeaf1; color: #a95b7d; font-weight: 800; }
-        .quantity-control button:hover { background: #f6d7e4; }
-        .line-total { color: #68475d; font-weight: 700; font-size: .9rem; }
-        .cart-total { display: flex; justify-content: space-between; color: #68475d; font-weight: 800; padding: 16px 0 8px; }
-        .clear-button { margin-top: 10px; background: transparent; color: var(--muted); padding: 6px 0; font-size: .82rem; text-decoration: underline; }
-
         .message-panel { padding: 22px; color: var(--muted); }
         .error-panel { color: #842d2a; border-color: #edc6c3; background: #fff8f7; }
         .retry-button { margin-top: 12px; padding: 8px 12px; background: var(--accent); color: white; }
@@ -324,7 +292,6 @@
 
         @media (max-width: 800px) {
             .layout { grid-template-columns: 1fr; }
-            .cart-panel { position: static; grid-row: 1; }
             .hero { padding: 34px; }
         }
 
@@ -339,6 +306,324 @@
             .collection-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
             .product-grid { grid-template-columns: 1fr; }
         }
+
+        :root {
+            --ink: #392b31;
+            --muted: #796870;
+            --line: #f0dce3;
+            --surface: #ffffff;
+            --page: #fff9fa;
+            --accent: #d66b8e;
+            --accent-dark: #a74468;
+            --danger: #a13e43;
+        }
+
+        body {
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Manrope", "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .topbar {
+            min-height: 72px;
+            padding-block: 12px;
+            background: var(--surface);
+            border-bottom-color: var(--line);
+        }
+        .brand-lockup { gap: 10px; }
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #fbe8ee;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+        .brand {
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -.025em;
+        }
+        .tagline { color: var(--muted); font-size: .78rem; }
+        .topbar-right { gap: 22px; }
+        .nav-link { color: var(--ink); font-size: .9rem; font-weight: 600; }
+        .nav-pill {
+            padding: 7px 12px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: transparent;
+            color: var(--ink);
+            font-size: .86rem;
+        }
+        .nav-pill:hover { background: #fff0f4; color: var(--ink); }
+        .api-status { font-size: .76rem; }
+        .api-status[data-state="ready"] { display: none; }
+        main { padding-bottom: 40px; }
+
+        .hero {
+            min-height: 0;
+            margin: 32px 0 36px;
+            padding: 38px 42px;
+            grid-template-columns: minmax(0, 1.15fr) minmax(220px, .85fr);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #f9e9ee;
+        }
+        .hero-copy { max-width: 650px; }
+        .eyebrow {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--accent-dark);
+            font-family: inherit;
+            font-size: .73rem;
+            font-weight: 700;
+            letter-spacing: .09em;
+        }
+        .hero h2 {
+            max-width: 640px;
+            margin: 10px 0 12px;
+            color: var(--ink);
+            font-family: inherit;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 500;
+            letter-spacing: -.035em;
+            line-height: 1.1;
+        }
+        .hero h2 span { color: var(--accent-dark); font-style: normal; }
+        .hero-copy > p { max-width: 540px; color: #514d48; line-height: 1.6; }
+        .hero-actions { margin-top: 18px; }
+        .hero-button {
+            padding: 10px 15px;
+            border: 1px solid var(--accent-dark);
+            border-radius: 4px;
+            background: var(--accent-dark);
+            box-shadow: none;
+            font-size: .9rem;
+            font-weight: 650;
+        }
+        .hero-button:hover { background: #873853; }
+        .hero-button.secondary {
+            display: none;
+        }
+        .hero-art {
+            display: grid;
+            position: relative;
+            min-height: 250px;
+            margin: 0;
+            border: 0;
+            border-radius: 4px;
+            background: #f3d9e2;
+        }
+        .hero-art::before { display: none; }
+        .hero-plush {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(7rem, 13vw, 9rem);
+            line-height: 1;
+            filter: none;
+            transform: none;
+        }
+        .hero-art::after {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            padding: 5px 8px;
+            background: #fff9fa;
+            color: var(--muted);
+            content: "MALLOW BUNNY";
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+        }
+        .sparkle { display: none; }
+
+        .collection-heading { margin-bottom: 18px; }
+        .section-kicker {
+            color: var(--accent-dark);
+            font-size: .74rem;
+            letter-spacing: .09em;
+        }
+        .page-heading h2 {
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 1.9rem;
+            font-weight: 500;
+            letter-spacing: -.025em;
+        }
+        .page-heading p { color: var(--muted); }
+        .collection-note { max-width: 290px; color: var(--muted); font-size: .82rem; }
+        .category-bar {
+            justify-content: flex-start;
+            margin-bottom: 18px;
+            padding: 12px 0;
+            border: 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            border-radius: 0;
+            background: transparent;
+        }
+        .category-bar label { color: var(--ink); font-size: .9rem; }
+        .category-select, select {
+            min-height: 40px;
+            border-color: #c9c4bb;
+            border-radius: 4px;
+            background: var(--surface);
+            font: inherit;
+        }
+
+        .layout {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 28px;
+        }
+        .product-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: start;
+            gap: 16px;
+        }
+        .product-card {
+            min-height: 0;
+            padding: 0 0 14px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: var(--surface);
+            box-shadow: none;
+            transition: border-color .15s ease;
+        }
+        .product-card:hover { transform: none; border-color: #bdb5aa; box-shadow: none; }
+        .product-art {
+            height: auto;
+            aspect-ratio: 1.2;
+            margin: 0 0 12px;
+            border-radius: 0;
+            background: #f8edf1;
+        }
+        .product-art::after { display: none; }
+        .product-art[data-tone="1"] { background: #f2e7e5; }
+        .product-art[data-tone="2"] { background: #f6eee4; }
+        .product-art[data-tone="3"] { background: #e9eeeb; }
+        .product-art[data-tone="4"] { background: #f2e5eb; }
+        .plush-emoji {
+            font-size: 4.5rem;
+            filter: none;
+        }
+        .product-card:hover .plush-emoji { transform: none; }
+        .category-badge {
+            margin: 0 13px 5px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--accent-dark);
+            font-size: .73rem;
+            font-weight: 650;
+        }
+        .product-card h3 {
+            margin: 0 13px 5px;
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .description {
+            margin: 0 13px 12px;
+            color: var(--muted);
+            font-size: .86rem;
+            line-height: 1.45;
+        }
+        .product-meta { margin: 0 13px 12px; }
+        .price { color: var(--ink); font-size: 1rem; }
+        .stock { color: var(--muted); font-size: .76rem; }
+        .message-panel {
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: var(--surface);
+            box-shadow: none;
+        }
+        .message-panel { padding: 18px; color: var(--muted); }
+        .error-panel { border-color: #d9b8b8; background: #fff9f8; }
+        .retry-button { border-radius: 4px; background: var(--accent-dark); }
+        .toast { color: var(--accent-dark); }
+
+        .site-footer {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 18px 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .82rem;
+        }
+        .site-footer nav { display: flex; flex-wrap: wrap; gap: 16px; }
+        .site-footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+
+        @media (max-width: 980px) {
+            .layout { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (max-width: 760px) {
+            .topbar { padding-inline: 16px; }
+            .topbar-right { gap: 12px; }
+            .topbar-right .nav-link:first-child { display: none; }
+            main { padding-inline: 16px; }
+            .hero { margin: 20px 0 30px; padding: 26px 22px; grid-template-columns: minmax(0, 1fr); }
+            .hero-art { min-height: 180px; }
+            .hero h2 { font-size: clamp(2rem, 8vw, 2.8rem); }
+            .collection-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .site-footer { margin-inline: 16px; padding-inline: 0; flex-direction: column; }
+        }
+        @media (max-width: 420px) {
+            .topbar-right { width: 100%; justify-content: space-between; }
+            .product-grid { grid-template-columns: 1fr; }
+            .product-art { aspect-ratio: 1.5; }
+        }
+
+        .account-controls { display: flex; align-items: center; gap: 10px; }
+        .account-status { color: var(--muted); font-size: .82rem; }
+        .account-controls .nav-pill { display: inline-flex; cursor: pointer; font: inherit; }
+        .account-controls [hidden] { display: none; }
+        .auth-dialog {
+            width: min(440px, calc(100vw - 32px));
+            padding: 26px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: var(--surface);
+            color: var(--ink);
+            box-shadow: 0 20px 70px rgb(80 56 72 / 25%);
+        }
+        .auth-dialog::backdrop { background: rgb(44 27 39 / 42%); }
+        .auth-dialog h2 { margin: 0 0 16px; color: #68435a; font-size: 1.35rem; }
+        .auth-dialog form { display: grid; gap: 13px; }
+        .auth-dialog [hidden] { display: none; }
+        .auth-dialog label { display: grid; gap: 6px; color: #68475d; font-size: .88rem; font-weight: 700; }
+        .auth-dialog input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ecc6d7;
+            border-radius: 9px;
+            color: var(--ink);
+            font: inherit;
+        }
+        .auth-dialog button { padding: 10px 14px; }
+        .auth-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .auth-close { border: 1px solid var(--line); background: white; color: var(--ink); }
+        .auth-submit { background: var(--accent); color: white; font-weight: 800; }
+        .auth-message { min-height: 1.3em; margin: 12px 0 0; color: var(--danger); font-size: .88rem; }
+        @media (max-width: 760px) {
+            .topbar-right { gap: 8px; }
+            .account-controls { gap: 6px; }
+            .account-controls .nav-pill { padding: 6px 8px; font-size: .76rem; }
+            .account-status { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        }
     </style>
 </head>
 <body>
@@ -347,44 +632,75 @@
         <div class="brand-mark" aria-hidden="true">♡</div>
         <div>
             <h1 class="brand">Mallow &amp; Moon</h1>
-            <p class="tagline">Little friends, big hugs</p>
+            <p class="tagline">A little plush shop</p>
         </div>
     </a>
     <div class="topbar-right">
-        <a class="nav-link" href="#collection">Meet the plushies</a>
-        <a class="nav-pill" href="/products-by-category.html">מוצרים לפי קטגוריה</a>
-        <a class="nav-pill" href="/manage-products.html">ניהול קטגוריות מוצרים</a>
-        <a class="nav-link" href="#cart">Your cuddle bag ♡</a>
-        <div id="apiStatus" class="api-status" data-state="loading" aria-live="polite">Finding your new friend…</div>
+        <a class="nav-link" href="#collection">Shop</a>
+        <div id="apiStatus" class="api-status" data-state="loading" aria-live="polite">Loading products...</div>
+        <div class="account-controls">
+            <span id="accountStatus" class="account-status" aria-live="polite">Checking account…</span>
+            <button id="loginButton" class="nav-pill" type="button">Log in</button>
+            <button id="registerButton" class="nav-pill" type="button">Create account</button>
+            <button id="logoutButton" class="nav-pill" type="button" hidden>Log out</button>
+        </div>
     </div>
 </header>
+
+<dialog id="authDialog" class="auth-dialog" aria-labelledby="authTitle">
+    <h2 id="authTitle">Log in</h2>
+    <form id="loginForm">
+        <label>Username
+            <input name="username" autocomplete="username" required>
+        </label>
+        <label>Password
+            <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <div class="auth-actions">
+            <button class="auth-close" type="button" data-close-auth>Cancel</button>
+            <button class="auth-submit" type="submit">Log in</button>
+        </div>
+    </form>
+    <form id="registerForm" hidden>
+        <label>Username
+            <input name="username" autocomplete="username" maxlength="60" required>
+        </label>
+        <label>Email
+            <input name="email" type="email" autocomplete="email" maxlength="150" required>
+        </label>
+        <label>Password (at least 8 characters)
+            <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+        </label>
+        <div class="auth-actions">
+            <button class="auth-close" type="button" data-close-auth>Cancel</button>
+            <button class="auth-submit" type="submit">Create account</button>
+        </div>
+    </form>
+    <p id="authMessage" class="auth-message" aria-live="polite"></p>
+</dialog>
 
 <main>
     <section class="hero" aria-label="Welcome to Mallow and Moon">
         <div class="hero-copy">
-            <span class="eyebrow">✦ A little shop full of love</span>
-            <h2>Find your new <span>snuggle</span> buddy.</h2>
-            <p>Meet the softest, sweetest little friends. Each one is ready for cozy days, big dreams, and lots of hugs.</p>
+            <span class="eyebrow">MALLOW &amp; MOON / PLUSHIE SHOP</span>
+            <h2>Meet the <span>collection.</span></h2>
+            <p>Browse by category, check current stock, and explore every plushie in the collection.</p>
             <div class="hero-actions">
-                <a class="hero-button" href="#collection">Find your plushie&nbsp; →</a>
-                <a class="hero-button secondary" href="/products-by-category.html">Browse by category</a>
-                <a class="hero-button secondary" href="/manage-products.html">Manage categories</a>
+                <a class="hero-button" href="#collection">Browse plushies</a>
             </div>
         </div>
         <div class="hero-art" aria-hidden="true">
-            <span class="sparkle sparkle-one">✦</span>
-            <span class="sparkle sparkle-two">✧</span>
-            <span class="hero-plush">🧸</span>
+            <span class="hero-plush">🐰</span>
         </div>
     </section>
 
     <div id="collection" class="collection-heading">
         <div class="page-heading">
-            <p class="section-kicker">The cuddle collection</p>
-            <h2>Pick your new bestie</h2>
-            <p>Every plushie comes with a little extra love.</p>
+            <p class="section-kicker">THE SHOP</p>
+            <h2>Plushies</h2>
+            <p>Details, prices and availability for every item.</p>
         </div>
-        <span class="collection-note">♡ Made for hugs, kept forever</span>
+        <span class="collection-note">Stock updates from the store catalogue.</span>
     </div>
 
     <div class="category-bar" aria-label="Filter plushies by category">
@@ -395,10 +711,7 @@
                 <option value="uncategorized">Uncategorized plushies</option>
             </select>
         </div>
-        <div class="category-links">
-            <a href="/products-by-category.html">דף סינון לפי קטגוריה →</a>
-            <a href="/manage-products.html">דף ניהול קטגוריות →</a>
-        </div>
+        <span class="collection-note">Choose a category to narrow the shelf.</span>
     </div>
 
     <div class="layout">
@@ -408,38 +721,34 @@
             <div id="loadMessage" class="message-panel">Loading product list…</div>
         </section>
 
-        <aside id="cart" class="cart-panel" aria-label="Shopping cart">
-            <div class="cart-heading">
-                <h2>Your cuddle bag ♡</h2>
-                <span id="cartCount" class="cart-count">0 items</span>
-            </div>
-            <div class="cart-body">
-                <p id="cartEmpty" class="cart-empty">Your cuddle bag is waiting for its first little friend.</p>
-                <div id="cartItems"></div>
-                <div id="cartSummary" hidden>
-                    <div class="cart-total"><span>Your total</span><span id="cartTotal">₪0.00</span></div>
-                    <button id="clearCart" class="clear-button" type="button">Empty cuddle bag</button>
-                </div>
-            </div>
-        </aside>
     </div>
 </main>
+<footer class="site-footer">
+    <span>Mallow &amp; Moon</span>
+    <nav aria-label="Store tools">
+        <a href="/products-by-category.html">Browse by category</a>
+        <a href="/manage-products.html">Manage products</a>
+    </nav>
+</footer>
 
 <script>
     const PRODUCTS_URL = "/api/products";
     const CATEGORIES_URL = "/api/categories";
-    const CART_STORAGE_KEY = "webstore.cart.v1";
 
     const productsElement = document.getElementById("products");
     const loadMessageElement = document.getElementById("loadMessage");
     const apiStatusElement = document.getElementById("apiStatus");
-    const cartItemsElement = document.getElementById("cartItems");
-    const cartEmptyElement = document.getElementById("cartEmpty");
-    const cartSummaryElement = document.getElementById("cartSummary");
-    const cartCountElement = document.getElementById("cartCount");
-    const cartTotalElement = document.getElementById("cartTotal");
     const toastElement = document.getElementById("toast");
     const categoryFilterElement = document.getElementById("storeCategoryFilter");
+    const accountStatusElement = document.getElementById("accountStatus");
+    const loginButton = document.getElementById("loginButton");
+    const registerButton = document.getElementById("registerButton");
+    const logoutButton = document.getElementById("logoutButton");
+    const authDialog = document.getElementById("authDialog");
+    const authTitle = document.getElementById("authTitle");
+    const authMessage = document.getElementById("authMessage");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
 
     const money = new Intl.NumberFormat("en-IL", {
         style: "currency",
@@ -447,20 +756,6 @@
     });
 
     let products = [];
-    let cart = readCart();
-
-    function readCart() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
-            return Array.isArray(saved) ? saved : [];
-        } catch {
-            return [];
-        }
-    }
-
-    function saveCart() {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    }
 
     function escapeHtml(value) {
         return String(value ?? "").replace(/[&<>"']/g, character => ({
@@ -503,7 +798,6 @@
             return `
                 <article class="product-card">
                     <div class="product-art" data-tone="${tone}" aria-hidden="true">
-                        <span class="product-ribbon">A little love inside</span>
                         <span class="plush-emoji">${plushie}</span>
                     </div>
                     <span class="category-badge">${escapeHtml(categoryName)}</span>
@@ -511,88 +805,10 @@
                     <p class="description">${escapeHtml(product.description || "No description provided.")}</p>
                     <div class="product-meta">
                         <span class="price">${formatPrice(product.price)}</span>
-                        <span class="stock">${stock > 0 ? `${stock} ready for hugs` : "Waiting for a restock"}</span>
+                        <span class="stock">${stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
                     </div>
-                    <button class="add-button" type="button" data-add="${Number(product.id)}" ${stock < 1 ? "disabled" : ""}>
-                        ${stock < 1 ? "All snuggled up" : "Add to cuddle bag"}
-                    </button>
                 </article>`;
         }).join("");
-    }
-
-    function renderCart() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-        cartCountElement.textContent = `${totalItems} ${totalItems === 1 ? "item" : "items"}`;
-        cartEmptyElement.hidden = cart.length > 0;
-        cartSummaryElement.hidden = cart.length === 0;
-        cartTotalElement.textContent = formatPrice(totalPrice);
-
-        cartItemsElement.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-top">
-                    <span class="cart-item-name">${escapeHtml(item.name)}</span>
-                    <button class="remove-button" type="button" data-remove="${Number(item.id)}" aria-label="Remove ${escapeHtml(item.name)}">Remove</button>
-                </div>
-                <div class="cart-item-bottom">
-                    <div class="quantity-control" aria-label="Quantity controls">
-                        <button type="button" data-change="-1" data-id="${Number(item.id)}" aria-label="Decrease quantity">−</button>
-                        <span>${item.quantity}</span>
-                        <button type="button" data-change="1" data-id="${Number(item.id)}" aria-label="Increase quantity">+</button>
-                    </div>
-                    <span class="line-total">${formatPrice(item.price * item.quantity)}</span>
-                </div>
-            </div>`).join("");
-    }
-
-    function addToCart(productId) {
-        const product = products.find(item => Number(item.id) === productId);
-        if (!product) return;
-
-        const stock = Number(product.stockQuantity) || 0;
-        const existing = cart.find(item => Number(item.id) === productId);
-        const currentQuantity = existing ? existing.quantity : 0;
-
-        if (currentQuantity >= stock) {
-            showToast("You cannot add more than the available stock.");
-            return;
-        }
-
-        if (existing) {
-            existing.quantity += 1;
-        } else {
-            cart.push({
-                id: Number(product.id),
-                name: product.name,
-                price: Number(product.price),
-                quantity: 1
-            });
-        }
-
-        saveCart();
-        renderCart();
-        showToast(`${product.name} added to cart.`);
-    }
-
-    function changeQuantity(productId, change) {
-        const item = cart.find(cartItem => Number(cartItem.id) === productId);
-        if (!item) return;
-
-        const nextQuantity = item.quantity + change;
-        if (nextQuantity < 1) {
-            cart = cart.filter(cartItem => Number(cartItem.id) !== productId);
-        } else {
-            const product = products.find(productItem => Number(productItem.id) === productId);
-            if (change > 0 && product && nextQuantity > Number(product.stockQuantity)) {
-                showToast("You cannot add more than the available stock.");
-                return;
-            }
-            item.quantity = nextQuantity;
-        }
-
-        saveCart();
-        renderCart();
     }
 
     async function loadCategories() {
@@ -646,24 +862,9 @@
                 throw new Error("The product API response was not a JSON array.");
             }
 
-            if (!selected) {
-                cart = cart.filter(item => products.some(product => Number(product.id) === Number(item.id)));
-                cart = cart.map(item => {
-                    const product = products.find(productItem => Number(productItem.id) === Number(item.id));
-                    return {
-                        id: Number(product.id),
-                        name: product.name,
-                        price: Number(product.price),
-                        quantity: Math.min(Number(item.quantity) || 1, Number(product.stockQuantity) || 0)
-                    };
-                }).filter(item => item.quantity > 0);
-                saveCart();
-            }
-
             apiStatusElement.dataset.state = "ready";
             apiStatusElement.textContent = "Product API connected";
             renderProducts();
-            renderCart();
         } catch (error) {
             apiStatusElement.dataset.state = "error";
             apiStatusElement.textContent = "Could not load products";
@@ -674,31 +875,144 @@
         }
     }
 
-    productsElement.addEventListener("click", event => {
-        const button = event.target.closest("[data-add]");
-        if (button) addToCart(Number(button.dataset.add));
-    });
-
-    cartItemsElement.addEventListener("click", event => {
-        const removeButton = event.target.closest("[data-remove]");
-        if (removeButton) {
-            const productId = Number(removeButton.dataset.remove);
-            cart = cart.filter(item => Number(item.id) !== productId);
-            saveCart();
-            renderCart();
-            return;
+    async function csrfHeaders(headers = {}) {
+        const response = await fetch("/api/auth/csrf", {
+            headers: { "Accept": "application/json" }
+        });
+        if (!response.ok) {
+            throw new Error(`Could not get a security token (HTTP ${response.status}).`);
         }
 
-        const changeButton = event.target.closest("[data-change]");
-        if (changeButton) {
-            changeQuantity(Number(changeButton.dataset.id), Number(changeButton.dataset.change));
+        const csrf = await response.json();
+        if (!csrf.headerName || !csrf.token) {
+            throw new Error("The security-token response was incomplete.");
+        }
+        return { ...headers, [csrf.headerName]: csrf.token };
+    }
+
+    async function readCurrentUser() {
+        const response = await fetch("/api/auth/me", {
+            headers: { "Accept": "application/json" }
+        });
+        if (!response.ok) {
+            throw new Error(`Could not check the current account (HTTP ${response.status}).`);
+        }
+        return response.json();
+    }
+
+    async function refreshAccountStatus() {
+        const user = await readCurrentUser();
+        const authenticated = user.authenticated === true;
+        accountStatusElement.textContent = authenticated
+            ? `Signed in as ${user.username}`
+            : "Browsing as guest";
+        loginButton.hidden = authenticated;
+        registerButton.hidden = authenticated;
+        logoutButton.hidden = !authenticated;
+        return authenticated;
+    }
+
+    function openAuthDialog(mode) {
+        const registering = mode === "register";
+        authTitle.textContent = registering ? "Create your account" : "Log in";
+        loginForm.hidden = registering;
+        registerForm.hidden = !registering;
+        authMessage.textContent = "";
+        authDialog.showModal();
+    }
+
+    async function responseError(response) {
+        const body = await response.text();
+        try {
+            const details = JSON.parse(body);
+            return details.detail || details.message || `Request failed (HTTP ${response.status}).`;
+        } catch {
+            return body || `Request failed (HTTP ${response.status}).`;
+        }
+    }
+
+    loginButton.addEventListener("click", () => openAuthDialog("login"));
+    registerButton.addEventListener("click", () => openAuthDialog("register"));
+    authDialog.querySelectorAll("[data-close-auth]").forEach(button => {
+        button.addEventListener("click", () => authDialog.close());
+    });
+
+    loginForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        authMessage.textContent = "";
+        const submitButton = loginForm.querySelector('[type="submit"]');
+        submitButton.disabled = true;
+        try {
+            const headers = await csrfHeaders({
+                "Content-Type": "application/x-www-form-urlencoded"
+            });
+            const response = await fetch("/login", {
+                method: "POST",
+                headers,
+                body: new URLSearchParams({
+                    username: loginForm.elements.username.value,
+                    password: loginForm.elements.password.value
+                })
+            });
+            if (!response.ok || !(await refreshAccountStatus())) {
+                throw new Error("Username or password is incorrect.");
+            }
+            authDialog.close();
+            loginForm.reset();
+        } catch (error) {
+            authMessage.textContent = error.message;
+        } finally {
+            submitButton.disabled = false;
         }
     });
 
-    document.getElementById("clearCart").addEventListener("click", () => {
-        cart = [];
-        saveCart();
-        renderCart();
+    registerForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        authMessage.textContent = "";
+        const submitButton = registerForm.querySelector('[type="submit"]');
+        submitButton.disabled = true;
+        try {
+            const headers = await csrfHeaders({ "Content-Type": "application/json" });
+            const response = await fetch("/api/auth/register", {
+                method: "POST",
+                headers,
+                body: JSON.stringify({
+                    username: registerForm.elements.username.value,
+                    email: registerForm.elements.email.value,
+                    password: registerForm.elements.password.value
+                })
+            });
+            if (!response.ok) {
+                throw new Error(await responseError(response));
+            }
+            const username = registerForm.elements.username.value;
+            registerForm.reset();
+            loginForm.elements.username.value = username;
+            openAuthDialog("login");
+            authMessage.textContent = "Account created. Log in to continue.";
+        } catch (error) {
+            authMessage.textContent = error.message;
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
+
+    logoutButton.addEventListener("click", async () => {
+        logoutButton.disabled = true;
+        try {
+            const response = await fetch("/logout", {
+                method: "POST",
+                headers: await csrfHeaders()
+            });
+            if (!response.ok) {
+                throw new Error(await responseError(response));
+            }
+            await refreshAccountStatus();
+        } catch (error) {
+            showToast(`Could not log out: ${error.message}`);
+        } finally {
+            logoutButton.disabled = false;
+        }
     });
 
     loadMessageElement.addEventListener("click", event => {
@@ -707,9 +1021,12 @@
 
     categoryFilterElement.addEventListener("change", loadProducts);
 
-    renderCart();
     loadCategories();
     loadProducts();
+    refreshAccountStatus().catch(error => {
+        accountStatusElement.textContent = "Account status unavailable";
+        showToast(error.message);
+    });
 </script>
 </body>
 </html>

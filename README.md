@@ -17,9 +17,10 @@ Open this folder in VS Code. In its PowerShell terminal run:
 ```
 
 The launcher uses your DB_PASSWORD environment variable if one is available.
-Otherwise, it asks for your local MySQL password with hidden input. It uses the
-included webstore.jar. Keep the terminal open, wait for Started
-WebstoreApplication, and open:
+Otherwise, it asks for your local MySQL password with hidden input. When the
+source project is present, it runs the current source with Maven Wrapper, so
+code changes are included after restarting the app. Keep the terminal open,
+wait for Started WebstoreApplication, and open:
 
 http://localhost:8080/
 
@@ -35,9 +36,9 @@ database credentials set in that terminal, run:
 .\mvnw.cmd spring-boot:run
 ```
 
-After Java edits, stop and start this command again. Changes to the source do
-not update the bundled webstore.jar. Rebuild it when you want to use the launcher
-with your changed code:
+After Java edits, stop and start this command again. The launcher prefers the
+source project; the bundled JAR is used only when the Maven project files are
+absent. To rebuild the bundled JAR after source changes:
 
 ```powershell
 .\mvnw.cmd package
@@ -55,19 +56,21 @@ not needed. The first source build requires an internet connection.
 - Product, category, shopping-cart, and order services.
 - Product and category REST APIs, including optional category filtering.
 - Validation for product names, prices, stock, and category names.
-- The Mallow & Moon HTML/CSS/JavaScript store page, including browser cart,
-  quantity controls, totals, stock limits, category filtering, and localStorage
-  persistence.
+- The Mallow & Moon HTML/CSS/JavaScript catalog page, including category
+  filtering and account registration/login/logout controls.
 - Matching pages to browse products by category and assign categories to
   products.
 - Five sample categories and five sample plushies, added only when their
   respective tables are empty.
-- Eight integration tests and a live API verification script.
+- Integration tests and a live API verification script.
 
-The APIs use MySQL. As in the teacher's guide, the page's shopping cart uses the
-browser's localStorage. Cart and order services exist, but there are no
-cart/order controllers, checkout button, or user login. Testing the order
-service does not add a checkout feature to the website.
+The APIs use MySQL. Accounts have a persisted `CUSTOMER` or `ADMIN` role;
+registration assigns `CUSTOMER` by default. Account passwords are stored as BCrypt hashes, and
+Spring Security keeps authenticated users in a server-side session. The
+catalog and registration are public; product/category changes and other
+non-public endpoints require login. Mutating requests use Spring Security's
+CSRF protection. Shopping-cart and order services exist, but there are no
+cart/order controllers or checkout feature in the website.
 
 ## API
 
@@ -84,10 +87,18 @@ service does not add a checkout feature to the website.
 | POST | /api/categories | Create a category; 201 Created |
 | PUT | /api/categories/{id} | Update a category |
 | DELETE | /api/categories/{id} | Delete a category; linked products remain uncategorized |
+| POST | /api/auth/register | Register with username, email, and password; requires a CSRF token |
+| GET | /api/auth/me | Current session's authentication status and username |
+| GET | /api/auth/csrf | Obtain a CSRF token for a state-changing request |
 
 A product can have no category or one category. To assign one in a product
 request, include `"category": {"id": 1}` using an existing category id; omit the
 field or send `null` for an uncategorized product.
+
+Login uses Spring Security's `/login` endpoint with `username` and `password`
+form fields. Logout uses `POST /logout` and requires a CSRF token. Registration
+requires a password of at least eight characters; BCrypt passwords are limited
+to 72 UTF-8 bytes.
 
 ### Test with Thunder Client
 
@@ -121,7 +132,8 @@ Use Content-Type: application/json. Open the page through Spring Boot on port
 .\mvnw.cmd test
 ```
 
-Tests use a separate, temporary H2 database. They cover product persistence,
+Tests use a separate, temporary H2 database. They cover registration and
+password hashing, default roles and login-user lookup, duplicate accounts, product persistence,
 category assignment, filtering, duplicate names, category deletion, missing
 products, duplicate carts, invalid quantity, empty-cart rejection, successful
 order creation, purchase-price history, and rollback on insufficient stock.
@@ -155,14 +167,15 @@ application.properties uses these environment settings:
 
 Hibernate creates the seven tables from the entity mappings on startup. Setting
 SEED_DEMO_DATA to false disables sample category and product creation. Existing
-categories and products are kept when the application restarts. Clearing the
-browser cart does not delete products from MySQL.
+categories and products are kept when the application restarts. User accounts
+and their BCrypt password hashes are persisted in the `store_users` table.
 
 ## Learn how it works
 
 Read EXPLAINED.md for a walkthrough using the actual classes in this project.
 
-Additions to the teacher's source: sample-product initialization, a launcher,
+Additions to the teacher's source: account registration and session
+authentication, sample-product initialization, a launcher,
 environment overrides for the connection/port, local-only server binding,
 automated checks, and these explanations. H2 is a test-only dependency; the
 running store uses MySQL.
