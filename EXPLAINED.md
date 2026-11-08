@@ -155,7 +155,31 @@ is in localStorage. The page does not call ShoppingCartService or
 CustomerOrderService. Those services need HTTP controllers before a browser
 can use them through the server.
 
-## 9. Understand the other five entities
+## 9. Understand product categories
+
+Category is a separate entity with its own repository, service, and controller.
+The service checks for duplicate names and clears product assignments before
+deleting a category, so deleting a category never deletes its products.
+
+Product has an optional `@ManyToOne` reference to Category. Many products can
+share one category, and the product row stores that relationship in the nullable
+`category_id` foreign-key column. The mapping is one-way: Category has no
+collection of products. That keeps product JSON from looping from Category back
+to Product and avoids a second mapping of the same relationship.
+
+Use `GET /api/categories` to list categories and
+`GET /api/products?categoryId=1` or `GET /api/products?uncategorized=true` to
+filter products. The home page and `products-by-category.html` display those
+filters; `manage-products.html` changes a product's category.
+
+If a future design required Category to expose its products, an
+`@OneToMany(mappedBy = "category")` collection could provide that reverse Java
+view without adding another foreign-key column. Returning both sides directly
+as JSON would create a circular reference, so a DTO (or a serialization rule)
+would be needed. Many-to-many is a different relationship and is unnecessary
+while each product may belong to at most one category.
+
+## 10. Understand the other five entities
 
 | Entity/table | Purpose |
 | --- | --- |
@@ -178,7 +202,7 @@ LAZY relationships are loaded when accessed within an active persistence
 context. Removing a CartItem from its cart's collection deletes that row because
 the mapping uses orphanRemoval. It does not delete the shared Product.
 
-## 10. Why the order service has @Transactional
+## 11. Why the order service has @Transactional
 
 createOrderFromCart checks the cart, checks stock, reduces stock, creates order
 items with purchase prices, and clears cart items. @Transactional makes these
@@ -186,8 +210,8 @@ database changes commit together or roll back together if a runtime exception
 occurs. One integration test deliberately causes insufficient stock and verifies
 that no partial order or stock reduction remains.
 
-The other tests show the services being used directly from Java. The website
-still matches the teacher's current tutorial: a product API plus a browser cart.
+The other tests show the services being used directly from Java. The category
+pages extend the product API and leave the browser-based cart unchanged.
 
 ## Recommended reading order
 
@@ -199,6 +223,6 @@ still matches the teacher's current tutorial: a product API plus a browser cart.
 6. static/index.html - how the page calls the API.
 7. The remaining entities and services - relationships and transactions.
 
-Sample-product initialization and the automated checks were added to make this
-copy easy to open and verify; the 19 source files from your teacher's guide are
-otherwise preserved.
+Sample-data initialization, category browsing and assignment, and automated
+checks extend the original store while keeping its product, cart, and order
+behavior.

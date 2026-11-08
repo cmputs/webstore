@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff4f8">
+    <title>ניהול מוצרים | Mallow &amp; Moon</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #503848;
+            --muted: #987e91;
+            --line: #f3dce7;
+            --surface: #fffdfd;
+            --page: #fff7fa;
+            --accent: #e879a5;
+            --accent-dark: #cf5e8b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+        }
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid #f7e7ee;
+            padding: 18px max(24px, calc((100vw - 1100px) / 2));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .brand-wrap { display: flex; align-items: center; gap: 12px; }
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #ffedf4;
+            color: #df6e9a;
+            font-size: 1.4rem;
+        }
+        header h1 { margin: 0; color: #68435a; font-size: 1.35rem; }
+        .header-links { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+        header a {
+            color: #b55880;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: #fff0f6;
+            border: 1px solid #f5d0e0;
+            font-size: .88rem;
+        }
+        header a:hover { background: #fce2ed; color: var(--accent-dark); }
+        main { max-width: 1100px; margin: 30px auto; padding: 0 24px 48px; }
+        .intro {
+            margin: 0 0 20px;
+            padding: 22px 26px;
+            border-radius: 22px;
+            border: 1px solid #f6dce7;
+            background: linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+            color: #6e4c61;
+        }
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 9px 26px rgb(130 79 105 / 6%);
+            overflow: hidden;
+        }
+        .table-wrap { overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; min-width: 720px; }
+        th, td { padding: 14px 16px; text-align: right; border-bottom: 1px solid var(--line); }
+        th { background: #fff8fb; color: #68435a; font-size: .92rem; }
+        tbody tr:last-child td { border-bottom: 0; }
+        .product-name { font-weight: 700; color: #63465a; }
+        .muted { color: var(--muted); }
+        select {
+            min-width: 200px;
+            padding: 8px 12px;
+            border: 1px solid #ecc6d7;
+            border-radius: 10px;
+            background: #fffafb;
+            color: var(--ink);
+            font: inherit;
+        }
+        select:focus { outline: 3px solid #e6a3bd; outline-offset: 2px; }
+        button {
+            padding: 9px 15px;
+            border: 0;
+            border-radius: 10px;
+            color: white;
+            background: var(--accent);
+            box-shadow: 0 5px 12px rgb(213 106 151 / 15%);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+        button:hover { background: var(--accent-dark); }
+        button:disabled { background: #d9cbd2; box-shadow: none; cursor: wait; }
+        .row-status { min-width: 100px; font-size: .88rem; font-weight: 700; }
+        .row-status.success { color: #3d7d5b; }
+        .row-status.error { color: #bd5574; }
+        #pageMessage { padding: 20px; color: var(--muted); }
+        #pageMessage.error { color: #842d2a; background: #fff8f7; }
+        @media(max-width: 600px) { main { margin-top: 20px; padding-inline: 12px; } }
+    </style>
+</head>
+<body>
+<header>
+    <div class="brand-wrap">
+        <div class="brand-mark" aria-hidden="true">♡</div>
+        <h1>Mallow &amp; Moon — ניהול קטגוריות המוצרים</h1>
+    </div>
+    <div class="header-links">
+        <a href="/products-by-category.html">מוצרים לפי קטגוריה</a>
+        <a href="/">חזרה לחנות</a>
+    </div>
+</header>
+<main>
+    <p class="intro">לכל בובת פרווה אפשר לבחור קטגוריה אחת או לבחור „ללא קטגוריה”. לחצו על „שמירת שינוי” כדי לעדכן את המוצר במסד הנתונים.</p>
+    <section class="panel" aria-label="רשימת מוצרים לניהול">
+        <div id="pageMessage" aria-live="polite">טוען מוצרים וקטגוריות…</div>
+        <div class="table-wrap" hidden>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">מוצר</th>
+                        <th scope="col">מחיר</th>
+                        <th scope="col">מלאי</th>
+                        <th scope="col">קטגוריה</th>
+                        <th scope="col">פעולה</th>
+                        <th scope="col">מצב</th>
+                    </tr>
+                </thead>
+                <tbody id="productsBody"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script>
+    const message = document.getElementById("pageMessage");
+    const tableWrap = document.querySelector(".table-wrap");
+    const productsBody = document.getElementById("productsBody");
+    const money = new Intl.NumberFormat("he-IL", { style:"currency", currency:"ILS" });
+
+    async function getJson(url) {
+        const response = await fetch(url, { headers:{ Accept:"application/json" } });
+        if (!response.ok) throw new Error(`השרת החזיר שגיאה ${response.status}.`);
+        return response.json();
+    }
+
+    function createProductRow(product, categories) {
+        const row = document.createElement("tr");
+        const nameCell = document.createElement("td");
+        nameCell.className = "product-name";
+        nameCell.textContent = product.name;
+
+        const priceCell = document.createElement("td");
+        priceCell.textContent = money.format(Number(product.price));
+        const stockCell = document.createElement("td");
+        stockCell.textContent = String(product.stockQuantity);
+
+        const categoryCell = document.createElement("td");
+        const select = document.createElement("select");
+        select.setAttribute("aria-label", `בחירת קטגוריה למוצר ${product.name}`);
+        select.add(new Option("ללא קטגוריה", ""));
+        for (const category of categories) {
+            select.add(new Option(category.name, String(category.id)));
+        }
+        select.value = product.category?.id == null ? "" : String(product.category.id);
+        categoryCell.append(select);
+
+        const actionCell = document.createElement("td");
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.textContent = "שמירת שינוי";
+        actionCell.append(saveButton);
+
+        const statusCell = document.createElement("td");
+        statusCell.className = "row-status muted";
+        statusCell.setAttribute("aria-live", "polite");
+        statusCell.textContent = "";
+
+        saveButton.addEventListener("click", async () => {
+            saveButton.disabled = true;
+            statusCell.className = "row-status muted";
+            statusCell.textContent = "שומר…";
+            const categoryId = select.value;
+            const payload = {
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                stockQuantity: product.stockQuantity,
+                category: categoryId ? { id:Number(categoryId) } : null
+            };
+            try {
+                const response = await fetch(`/api/products/${product.id}`, {
+                    method:"PUT",
+                    headers:{ "Content-Type":"application/json", Accept:"application/json" },
+                    body:JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const details = await response.text();
+                    throw new Error(details || `השרת החזיר שגיאה ${response.status}.`);
+                }
+                const updated = await response.json();
+                product.category = updated.category;
+                statusCell.className = "row-status success";
+                statusCell.textContent = "נשמר";
+            } catch (error) {
+                statusCell.className = "row-status error";
+                statusCell.textContent = `שגיאה: ${error.message}`;
+            } finally {
+                saveButton.disabled = false;
+            }
+        });
+
+        row.append(nameCell, priceCell, stockCell, categoryCell, actionCell, statusCell);
+        return row;
+    }
+
+    async function loadPage() {
+        try {
+            const [products, categories] = await Promise.all([
+                getJson("/api/products"),
+                getJson("/api/categories")
+            ]);
+            productsBody.replaceChildren();
+            for (const product of products) productsBody.append(createProductRow(product, categories));
+            message.hidden = true;
+            tableWrap.hidden = false;
+            if (products.length === 0) {
+                message.hidden = false;
+                message.textContent = "לא נמצאו מוצרים.";
+            }
+        } catch (error) {
+            message.classList.add("error");
+            message.textContent = `${error.message} ודאו ששרת Spring Boot פועל ושיש חיבור למסד הנתונים.`;
+        }
+    }
+
+    loadPage();
+</script>
+</body>
+</html>

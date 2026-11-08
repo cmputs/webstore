@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff4f8">
+    <title>מוצרים לפי קטגוריה | Mallow &amp; Moon</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #503848;
+            --muted: #987e91;
+            --line: #f3dce7;
+            --surface: #fffdfd;
+            --page: #fff7fa;
+            --accent: #e879a5;
+            --accent-dark: #cf5e8b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+        }
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid #f7e7ee;
+            padding: 18px max(24px, calc((100vw - 1100px) / 2));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .brand-wrap { display: flex; align-items: center; gap: 12px; }
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #ffedf4;
+            color: #df6e9a;
+            font-size: 1.4rem;
+        }
+        header h1 { margin: 0; color: #68435a; font-size: 1.35rem; }
+        .header-links { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+        header a {
+            color: #b55880;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: #fff0f6;
+            border: 1px solid #f5d0e0;
+            font-size: .88rem;
+        }
+        header a:hover { background: #fce2ed; color: var(--accent-dark); }
+        main { max-width: 1100px; margin: 30px auto; padding: 0 24px 48px; }
+        .lead-banner {
+            margin-bottom: 22px;
+            padding: 24px 28px;
+            border-radius: 24px;
+            border: 1px solid #f6dce7;
+            background: linear-gradient(115deg, #ffe6ef, #fff0e8 70%, #f8e9ff);
+        }
+        .lead-banner p { margin: 0; color: #6e4c61; font-size: 1rem; }
+        .filter, .product-card, .message {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 9px 26px rgb(130 79 105 / 6%);
+        }
+        .filter { padding: 20px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        label { font-weight: 700; color: #68435a; }
+        select {
+            min-width: 240px;
+            padding: 10px 14px;
+            border: 1px solid #ecc6d7;
+            border-radius: 12px;
+            background: #fffafb;
+            color: var(--ink);
+            font: inherit;
+        }
+        select:focus { outline: 3px solid #e6a3bd; outline-offset: 2px; }
+        #status { color: var(--muted); font-size: .92rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 19px; margin-top: 22px; }
+        .product-card {
+            padding: 14px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgb(130 79 105 / 11%); }
+        .product-art {
+            height: 145px;
+            margin-bottom: 14px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffedf3, #fff4e9);
+            font-size: 4.8rem;
+        }
+        .category-pill {
+            align-self: flex-start;
+            margin-bottom: 6px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #fdf0f5;
+            border: 1px solid #f4d6e3;
+            color: #a95b7d;
+            font-size: .74rem;
+            font-weight: 700;
+        }
+        .product-card h2 { margin: 0 0 8px; color: #63465a; font-size: 1.1rem; }
+        .description { min-height: 45px; margin: 0 0 14px; color: var(--muted); line-height: 1.5; flex: 1; }
+        .meta { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 12px; }
+        .price { color: #b25e81; font-weight: 800; }
+        .stock { color: var(--muted); font-size: .86rem; }
+        .message { padding: 20px; margin-top: 20px; color: var(--muted); }
+        .error { color: #842d2a; border-color: #edc6c3; background: #fff8f7; }
+        @media(max-width: 500px) { main { margin-top: 20px; } select { width: 100%; } }
+    </style>
+</head>
+<body>
+<header>
+    <div class="brand-wrap">
+        <div class="brand-mark" aria-hidden="true">♡</div>
+        <h1>Mallow &amp; Moon — מוצרים לפי קטגוריה</h1>
+    </div>
+    <div class="header-links">
+        <a href="/manage-products.html">ניהול קטגוריות מוצרים</a>
+        <a href="/">חזרה לעמוד החנות</a>
+    </div>
+</header>
+<main>
+    <div class="lead-banner">
+        <p>בחרו קטגוריה כדי להציג את בובות הפרווה שמשויכות אליה. אפשר גם להציג את כל המוצרים או מוצרים ללא קטגוריה.</p>
+    </div>
+    <section class="filter" aria-label="סינון מוצרים לפי קטגוריה">
+        <label for="categorySelect">קטגוריה:</label>
+        <select id="categorySelect" disabled>
+            <option value="">טוען קטגוריות…</option>
+        </select>
+        <span id="status" aria-live="polite">מתחבר לשרת…</span>
+    </section>
+    <section id="products" class="grid" aria-live="polite"></section>
+    <p id="message" class="message" hidden></p>
+</main>
+<script>
+    const categorySelect = document.getElementById("categorySelect");
+    const productsElement = document.getElementById("products");
+    const messageElement = document.getElementById("message");
+    const statusElement = document.getElementById("status");
+    const currency = new Intl.NumberFormat("he-IL", { style: "currency", currency: "ILS" });
+    const plushies = ["🐰", "🧸", "🐱", "🐶", "🦎", "🐸"];
+
+    function showMessage(text, isError = false) {
+        messageElement.textContent = text;
+        messageElement.hidden = false;
+        messageElement.classList.toggle("error", isError);
+    }
+
+    function renderProducts(products) {
+        productsElement.replaceChildren();
+        if (products.length === 0) {
+            showMessage("לא נמצאו מוצרים עבור הבחירה הזאת.");
+            return;
+        }
+        messageElement.hidden = true;
+        for (const product of products) {
+            const card = document.createElement("article");
+            card.className = "product-card";
+
+            const art = document.createElement("div");
+            art.className = "product-art";
+            art.setAttribute("aria-hidden", "true");
+            art.textContent = plushies[(Number(product.id) - 1) % plushies.length] || plushies[0];
+
+            const badge = document.createElement("span");
+            badge.className = "category-pill";
+            badge.textContent = product.category?.name || "ללא קטגוריה";
+
+            const name = document.createElement("h2");
+            name.textContent = product.name;
+            const description = document.createElement("p");
+            description.className = "description";
+            description.textContent = product.description || "אין תיאור למוצר.";
+            const meta = document.createElement("div");
+            meta.className = "meta";
+            const price = document.createElement("span");
+            price.className = "price";
+            price.textContent = currency.format(Number(product.price));
+            const stock = document.createElement("span");
+            stock.className = "stock";
+            stock.textContent = `במלאי: ${product.stockQuantity}`;
+            meta.append(price, stock);
+            card.append(art, badge, name, description, meta);
+            productsElement.append(card);
+        }
+    }
+
+    async function loadProducts() {
+        const selected = categorySelect.value;
+        const query = selected === "uncategorized" ? "?uncategorized=true"
+            : selected ? `?categoryId=${encodeURIComponent(selected)}` : "";
+        statusElement.textContent = "טוען מוצרים…";
+        messageElement.hidden = true;
+        productsElement.replaceChildren();
+        try {
+            const response = await fetch(`/api/products${query}`, { headers: { Accept: "application/json" } });
+            if (!response.ok) throw new Error(`שגיאת שרת (${response.status}).`);
+            const products = await response.json();
+            renderProducts(products);
+            statusElement.textContent = `נמצאו ${products.length} מוצרים`;
+        } catch (error) {
+            statusElement.textContent = "לא ניתן לטעון מוצרים";
+            showMessage(`${error.message} ודאו ששרת Spring Boot פועל.`, true);
+        }
+    }
+
+    async function loadCategories() {
+        try {
+            const response = await fetch("/api/categories", { headers: { Accept: "application/json" } });
+            if (!response.ok) throw new Error(`שגיאת שרת (${response.status}).`);
+            const categories = await response.json();
+            categorySelect.replaceChildren();
+            categorySelect.add(new Option("כל המוצרים", ""));
+            categorySelect.add(new Option("מוצרים ללא קטגוריה", "uncategorized"));
+            for (const category of categories) categorySelect.add(new Option(category.name, String(category.id)));
+            categorySelect.disabled = false;
+            await loadProducts();
+        } catch (error) {
+            categorySelect.replaceChildren(new Option("לא ניתן לטעון קטגוריות", ""));
+            statusElement.textContent = "שגיאה בטעינת קטגוריות";
+            showMessage(`${error.message} ודאו ששרת Spring Boot פועל.`, true);
+        }
+    }
+
+    categorySelect.addEventListener("change", loadProducts);
+    loadCategories();
+</script>
+</body>
+</html>

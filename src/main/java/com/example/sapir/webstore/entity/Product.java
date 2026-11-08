@@ -41,10 +41,20 @@ public class Product {
     @Column(nullable = false)
     private int stockQuantity;
 
+    // A product may have one category, but category assignment is optional.
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = true)
+    private Category category;
+
     public Product(String name, String description, BigDecimal price, int stockQuantity) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    public Product(String name, String description, BigDecimal price, int stockQuantity, Category category) {
+        this(name, description, price, stockQuantity);
+        this.category = category;
     }
 }

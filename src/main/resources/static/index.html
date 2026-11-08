@@ -37,9 +37,10 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
+            flex-wrap: wrap;
         }
 
-        .brand-lockup { display: flex; align-items: center; gap: 11px; }
+        .brand-lockup { display: flex; align-items: center; gap: 11px; text-decoration: none; }
         .brand-mark {
             width: 43px;
             height: 43px;
@@ -52,9 +53,20 @@
         }
         .brand { margin: 0; color: #68435a; font-size: 1.3rem; letter-spacing: -.035em; }
         .tagline { margin: 3px 0 0; color: var(--muted); font-size: .83rem; }
-        .topbar-right { display: flex; align-items: center; gap: 22px; }
+        .topbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
         .nav-link { color: #76566c; text-decoration: none; font-size: .9rem; font-weight: 700; }
         .nav-link:hover { color: var(--accent-dark); }
+        .nav-pill {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #fff0f6;
+            border: 1px solid #f5d0e0;
+            color: #b55880;
+            text-decoration: none;
+            font-size: .84rem;
+            font-weight: 700;
+        }
+        .nav-pill:hover { background: #fce2ed; color: var(--accent-dark); }
         .api-status { color: var(--muted); font-size: .78rem; }
         .api-status[data-state="ready"] { color: #648e79; }
         .api-status[data-state="error"] { color: #bd5574; }
@@ -107,9 +119,9 @@
         }
         .hero h2 span { color: #dc7098; font-style: italic; }
         .hero-copy > p { max-width: 430px; margin: 0; color: #886b7e; line-height: 1.7; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 23px; }
         .hero-button {
             display: inline-flex;
-            margin-top: 23px;
             padding: 12px 19px;
             border-radius: 999px;
             background: #de759b;
@@ -121,6 +133,13 @@
             transition: transform .18s ease, background .18s ease;
         }
         .hero-button:hover { transform: translateY(-2px); background: #c85f88; }
+        .hero-button.secondary {
+            background: rgb(255 255 255 / 85%);
+            color: #9e4f72;
+            border: 1px solid #f3cadb;
+            box-shadow: none;
+        }
+        .hero-button.secondary:hover { background: #ffffff; }
         .hero-art { position: relative; display: grid; min-height: 230px; place-items: center; }
         .hero-art::before {
             position: absolute;
@@ -147,12 +166,40 @@
             align-items: end;
             justify-content: space-between;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .section-kicker { margin: 0 0 5px; color: #c16b8c; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
         .page-heading h2 { margin: 0; color: #63465a; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
         .page-heading p { margin: 6px 0 0; color: var(--muted); }
         .collection-note { color: var(--muted); font-size: .86rem; }
+
+        .category-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 13px 16px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+        .category-bar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .category-bar label { font-weight: 700; color: #68475d; font-size: .9rem; }
+        .category-select {
+            min-width: 210px;
+            padding: 8px 12px;
+            border: 1px solid #ecc6d7;
+            border-radius: 10px;
+            background: #fffafb;
+            color: var(--ink);
+            font: inherit;
+            font-size: .9rem;
+        }
+        .category-links { display: flex; gap: 12px; flex-wrap: wrap; font-size: .85rem; }
+        .category-links a { color: #b55880; font-weight: 700; text-decoration: none; }
+        .category-links a:hover { text-decoration: underline; }
 
         .layout {
             display: grid;
@@ -175,7 +222,7 @@
         }
 
         .product-card {
-            min-height: 370px;
+            min-height: 385px;
             padding: 12px 17px 17px;
             display: flex;
             flex-direction: column;
@@ -210,6 +257,17 @@
         .product-card:hover .plush-emoji { transform: scale(1.08) rotate(-4deg); }
         .product-ribbon { position: absolute; z-index: 2; top: 10px; left: 10px; padding: 6px 9px; border-radius: 999px; background: rgb(255 255 255 / 88%); color: #a95b7d; font-size: .66rem; font-weight: 800; }
 
+        .category-badge {
+            align-self: flex-start;
+            margin-bottom: 6px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #fdf0f5;
+            border: 1px solid #f4d6e3;
+            color: #a95b7d;
+            font-size: .72rem;
+            font-weight: 700;
+        }
         .product-card h3 { margin: 0 0 7px; color: #63465a; font-size: 1.05rem; }
         .description { margin: 0 0 14px; color: var(--muted); font-size: .9rem; line-height: 1.5; flex: 1; }
         .product-meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 13px; }
@@ -225,7 +283,7 @@
         }
 
         button:active { transform: translateY(1px); }
-        button:focus-visible, a:focus-visible { outline: 3px solid #e6a3bd; outline-offset: 3px; }
+        button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid #e6a3bd; outline-offset: 3px; }
 
         .add-button {
             width: 100%;
@@ -273,8 +331,6 @@
         @media (max-width: 520px) {
             main { padding-inline: 16px; }
             .topbar { padding-inline: 16px; }
-            .topbar-right { gap: 10px; align-items: flex-end; flex-direction: column; }
-            .nav-link { display: none; }
             .hero { min-height: 0; margin: 18px 0 36px; padding: 28px 24px 18px; grid-template-columns: 1fr; }
             .hero h2 { font-size: 2.8rem; }
             .hero-art { min-height: 170px; }
@@ -287,15 +343,17 @@
 </head>
 <body>
 <header class="topbar">
-    <div class="brand-lockup">
+    <a class="brand-lockup" href="/">
         <div class="brand-mark" aria-hidden="true">♡</div>
         <div>
             <h1 class="brand">Mallow &amp; Moon</h1>
             <p class="tagline">Little friends, big hugs</p>
         </div>
-    </div>
+    </a>
     <div class="topbar-right">
         <a class="nav-link" href="#collection">Meet the plushies</a>
+        <a class="nav-pill" href="/products-by-category.html">מוצרים לפי קטגוריה</a>
+        <a class="nav-pill" href="/manage-products.html">ניהול קטגוריות מוצרים</a>
         <a class="nav-link" href="#cart">Your cuddle bag ♡</a>
         <div id="apiStatus" class="api-status" data-state="loading" aria-live="polite">Finding your new friend…</div>
     </div>
@@ -307,7 +365,11 @@
             <span class="eyebrow">✦ A little shop full of love</span>
             <h2>Find your new <span>snuggle</span> buddy.</h2>
             <p>Meet the softest, sweetest little friends. Each one is ready for cozy days, big dreams, and lots of hugs.</p>
-            <a class="hero-button" href="#collection">Find your plushie&nbsp; →</a>
+            <div class="hero-actions">
+                <a class="hero-button" href="#collection">Find your plushie&nbsp; →</a>
+                <a class="hero-button secondary" href="/products-by-category.html">Browse by category</a>
+                <a class="hero-button secondary" href="/manage-products.html">Manage categories</a>
+            </div>
         </div>
         <div class="hero-art" aria-hidden="true">
             <span class="sparkle sparkle-one">✦</span>
@@ -323,6 +385,20 @@
             <p>Every plushie comes with a little extra love.</p>
         </div>
         <span class="collection-note">♡ Made for hugs, kept forever</span>
+    </div>
+
+    <div class="category-bar" aria-label="Filter plushies by category">
+        <div class="category-bar-left">
+            <label for="storeCategoryFilter">Category:</label>
+            <select id="storeCategoryFilter" class="category-select">
+                <option value="">All plushies</option>
+                <option value="uncategorized">Uncategorized plushies</option>
+            </select>
+        </div>
+        <div class="category-links">
+            <a href="/products-by-category.html">דף סינון לפי קטגוריה →</a>
+            <a href="/manage-products.html">דף ניהול קטגוריות →</a>
+        </div>
     </div>
 
     <div class="layout">
@@ -351,6 +427,7 @@
 
 <script>
     const PRODUCTS_URL = "/api/products";
+    const CATEGORIES_URL = "/api/categories";
     const CART_STORAGE_KEY = "webstore.cart.v1";
 
     const productsElement = document.getElementById("products");
@@ -362,6 +439,7 @@
     const cartCountElement = document.getElementById("cartCount");
     const cartTotalElement = document.getElementById("cartTotal");
     const toastElement = document.getElementById("toast");
+    const categoryFilterElement = document.getElementById("storeCategoryFilter");
 
     const money = new Intl.NumberFormat("en-IL", {
         style: "currency",
@@ -409,22 +487,26 @@
         if (products.length === 0) {
             productsElement.innerHTML = "";
             loadMessageElement.hidden = false;
-            loadMessageElement.textContent = "No products were found in the database.";
+            loadMessageElement.textContent = "No plushies were found for this filter.";
             return;
         }
 
         loadMessageElement.hidden = true;
         productsElement.innerHTML = products.map(product => {
             const stock = Number(product.stockQuantity) || 0;
-            const plushies = ["🐰", "🧸", "🐱", "🐻‍❄️", "🐶", "🐸"];
+            const plushies = ["🐰", "🧸", "🐱", "🐶", "🦎", "🐸"];
             const plushie = plushies[(Number(product.id) - 1) % plushies.length] || plushies[0];
             const tone = (Number(product.id) - 1) % 5;
+            const categoryName = product.category && product.category.name
+                ? product.category.name
+                : "Uncategorized";
             return `
                 <article class="product-card">
                     <div class="product-art" data-tone="${tone}" aria-hidden="true">
                         <span class="product-ribbon">A little love inside</span>
                         <span class="plush-emoji">${plushie}</span>
                     </div>
+                    <span class="category-badge">${escapeHtml(categoryName)}</span>
                     <h3>${escapeHtml(product.name)}</h3>
                     <p class="description">${escapeHtml(product.description || "No description provided.")}</p>
                     <div class="product-meta">
@@ -513,6 +595,30 @@
         renderCart();
     }
 
+    async function loadCategories() {
+        try {
+            const response = await fetch(CATEGORIES_URL, {
+                headers: { "Accept": "application/json" }
+            });
+            if (!response.ok) {
+                throw new Error(`The category API returned HTTP ${response.status}.`);
+            }
+            const categories = await response.json();
+            if (!Array.isArray(categories)) {
+                throw new Error("The category API response was not a JSON array.");
+            }
+            categoryFilterElement.replaceChildren(
+                new Option("All plushies", ""),
+                new Option("Uncategorized plushies", "uncategorized")
+            );
+            for (const category of categories) {
+                categoryFilterElement.add(new Option(category.name, String(category.id)));
+            }
+        } catch (error) {
+            showToast(`Category filters could not be loaded: ${error.message}`);
+        }
+    }
+
     async function loadProducts() {
         apiStatusElement.dataset.state = "loading";
         apiStatusElement.textContent = "Connecting to product API…";
@@ -520,8 +626,15 @@
         loadMessageElement.className = "message-panel";
         loadMessageElement.textContent = "Loading product list…";
 
+        const selected = categoryFilterElement ? categoryFilterElement.value : "";
+        const query = selected === "uncategorized"
+            ? "?uncategorized=true"
+            : selected
+                ? `?categoryId=${encodeURIComponent(selected)}`
+                : "";
+
         try {
-            const response = await fetch(PRODUCTS_URL, {
+            const response = await fetch(`${PRODUCTS_URL}${query}`, {
                 headers: { "Accept": "application/json" }
             });
             if (!response.ok) {
@@ -533,18 +646,20 @@
                 throw new Error("The product API response was not a JSON array.");
             }
 
-            cart = cart.filter(item => products.some(product => Number(product.id) === Number(item.id)));
-            cart = cart.map(item => {
-                const product = products.find(productItem => Number(productItem.id) === Number(item.id));
-                return {
-                    id: Number(product.id),
-                    name: product.name,
-                    price: Number(product.price),
-                    quantity: Math.min(Number(item.quantity) || 1, Number(product.stockQuantity) || 0)
-                };
-            }).filter(item => item.quantity > 0);
+            if (!selected) {
+                cart = cart.filter(item => products.some(product => Number(product.id) === Number(item.id)));
+                cart = cart.map(item => {
+                    const product = products.find(productItem => Number(productItem.id) === Number(item.id));
+                    return {
+                        id: Number(product.id),
+                        name: product.name,
+                        price: Number(product.price),
+                        quantity: Math.min(Number(item.quantity) || 1, Number(product.stockQuantity) || 0)
+                    };
+                }).filter(item => item.quantity > 0);
+                saveCart();
+            }
 
-            saveCart();
             apiStatusElement.dataset.state = "ready";
             apiStatusElement.textContent = "Product API connected";
             renderProducts();
@@ -590,7 +705,10 @@
         if (event.target.id === "retryLoad") loadProducts();
     });
 
+    categoryFilterElement.addEventListener("change", loadProducts);
+
     renderCart();
+    loadCategories();
     loadProducts();
 </script>
 </body>

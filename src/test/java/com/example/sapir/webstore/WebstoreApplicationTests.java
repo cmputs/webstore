@@ -22,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class WebstoreApplicationTests {
 
     @Autowired ProductService products;
+    @Autowired CategoryService categories;
     @Autowired ShoppingCartService carts;
     @Autowired CustomerOrderService orders;
     @Autowired ProductRepository productRepository;
+    @Autowired CategoryRepository categoryRepository;
     @Autowired StoreUserRepository userRepository;
     @Autowired ShoppingCartRepository cartRepository;
     @Autowired CartItemRepository cartItemRepository;
@@ -40,6 +42,7 @@ class WebstoreApplicationTests {
         cartRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 
     @Test
@@ -56,6 +59,51 @@ class WebstoreApplicationTests {
 
         products.deleteProduct(created.getId());
         assertThat(products.getAllProducts()).isEmpty();
+    }
+
+    @Test
+    void categoriesCanBeAssignedFilteredAndDeletedWithoutDeletingProducts() {
+        Category woodland = categories.createCategory(new Category("Woodland Buddies", "Forest plushies"));
+        Category treats = categories.createCategory(new Category("Sweet Treats", "Dessert plushies"));
+
+        ResponseStatusException duplicateError = assertThrows(ResponseStatusException.class,
+                () -> categories.createCategory(new Category("woodland buddies", "Duplicate name")));
+        assertThat(duplicateError.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+
+        Category renamed = categories.updateCategory(
+                woodland.getId(), new Category("Forest Friends", "Updated forest plushies"));
+        assertThat(renamed.getName()).isEqualTo("Forest Friends");
+        assertThat(renamed.getDescription()).isEqualTo("Updated forest plushies");
+
+        ResponseStatusException duplicateUpdateError = assertThrows(ResponseStatusException.class,
+                () -> categories.updateCategory(treats.getId(), new Category("Forest Friends", "Duplicate name")));
+        assertThat(duplicateUpdateError.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+
+        Product bunnyRequest = product("Mallow Bunny", "89.90", 25);
+        bunnyRequest.setCategory(new Category());
+        bunnyRequest.getCategory().setId(woodland.getId());
+        Product bunny = products.createProduct(bunnyRequest);
+
+        Product uncategorizedKitten = products.createProduct(product("Cloudlet Kitten", "99.90", 18));
+
+        assertThat(products.getProductsByCategory(woodland.getId()))
+                .extracting(Product::getName)
+                .containsExactly("Mallow Bunny");
+        assertThat(products.getUncategorizedProducts())
+                .extracting(Product::getName)
+                .containsExactly("Cloudlet Kitten");
+
+        Product moveRequest = product("Mallow Bunny", "89.90", 25);
+        moveRequest.setCategory(new Category());
+        moveRequest.getCategory().setId(treats.getId());
+        Product moved = products.updateProduct(bunny.getId(), moveRequest);
+        assertThat(moved.getCategory()).isNotNull();
+        assertThat(moved.getCategory().getId()).isEqualTo(treats.getId());
+
+        categories.deleteCategory(treats.getId());
+        Product afterCategoryDelete = products.getProductById(bunny.getId());
+        assertThat(afterCategoryDelete.getCategory()).isNull();
+        assertThat(products.getUncategorizedProducts()).hasSize(2);
     }
 
     @Test

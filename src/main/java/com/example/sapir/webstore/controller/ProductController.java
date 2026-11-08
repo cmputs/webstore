@@ -21,7 +21,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(defaultValue = "false") boolean uncategorized) {
+        if (categoryId != null && uncategorized) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Choose categoryId or uncategorized, not both.");
+        }
+        if (categoryId != null) return productService.getProductsByCategory(categoryId);
+        if (uncategorized) return productService.getUncategorizedProducts();
         return productService.getAllProducts();
     }
 

@@ -49,20 +49,24 @@ not needed. The first source build requires an internet connection.
 
 ## What is implemented
 
-- Six entities: Product, StoreUser, ShoppingCart, CartItem, CustomerOrder,
-  and OrderItem, plus OrderStatus.
-- Six Spring Data JPA repositories.
-- Product, shopping-cart, and order services.
-- Product REST API: list, get, create, update, and delete.
-- Validation for product names, prices, and stock.
+- Seven entities: Product, Category, StoreUser, ShoppingCart, CartItem,
+  CustomerOrder, and OrderItem, plus OrderStatus.
+- Seven Spring Data JPA repositories.
+- Product, category, shopping-cart, and order services.
+- Product and category REST APIs, including optional category filtering.
+- Validation for product names, prices, stock, and category names.
 - The Mallow & Moon HTML/CSS/JavaScript store page, including browser cart,
-  quantity controls, totals, stock limits, and localStorage persistence.
-- Five sample plushies, inserted only when the products table is empty.
-- Seven integration tests and a live API verification script.
+  quantity controls, totals, stock limits, category filtering, and localStorage
+  persistence.
+- Matching pages to browse products by category and assign categories to
+  products.
+- Five sample categories and five sample plushies, added only when their
+  respective tables are empty.
+- Eight integration tests and a live API verification script.
 
-The product API uses MySQL. As in the teacher's guide, the page's shopping cart
-uses the browser's localStorage. Cart and order services exist, but the tutorial
-has no cart/order controllers, checkout button, or user login. Testing the order
+The APIs use MySQL. As in the teacher's guide, the page's shopping cart uses the
+browser's localStorage. Cart and order services exist, but there are no
+cart/order controllers, checkout button, or user login. Testing the order
 service does not add a checkout feature to the website.
 
 ## API
@@ -74,6 +78,16 @@ service does not add a checkout feature to the website.
 | POST | /api/products | Save a product; 201 Created |
 | PUT | /api/products/{id} | Update a product |
 | DELETE | /api/products/{id} | Delete a product; 204 No Content |
+| GET | /api/products?categoryId={id} | Products in one category |
+| GET | /api/products?uncategorized=true | Products without a category |
+| GET | /api/categories | List categories |
+| POST | /api/categories | Create a category; 201 Created |
+| PUT | /api/categories/{id} | Update a category |
+| DELETE | /api/categories/{id} | Delete a category; linked products remain uncategorized |
+
+A product can have no category or one category. To assign one in a product
+request, include `"category": {"id": 1}` using an existing category id; omit the
+field or send `null` for an uncategorized product.
 
 ### Test with Thunder Client
 
@@ -87,7 +101,7 @@ The POST creates a product that remains in MySQL until deleted. The tutorial
 does not provide cart or order REST endpoints, so those services cannot be
 tested through Thunder Client yet.
 
-Example POST body:
+Example POST body for an uncategorized product:
 
 ```json
 {
@@ -99,7 +113,7 @@ Example POST body:
 ```
 
 Use Content-Type: application/json. Open the page through Spring Boot on port
-8080, as shown above, so its /api/products requests reach this server.
+8080, as shown above, so its API requests reach this server.
 
 ## Verify
 
@@ -108,17 +122,20 @@ Use Content-Type: application/json. Open the page through Spring Boot on port
 ```
 
 Tests use a separate, temporary H2 database. They cover product persistence,
-missing products, duplicate carts, invalid quantity, empty-cart rejection,
-successful order creation, purchase-price history, and rollback on insufficient
-stock. They do not erase your MySQL data.
+category assignment, filtering, duplicate names, category deletion, missing
+products, duplicate carts, invalid quantity, empty-cart rejection, successful
+order creation, purchase-price history, and rollback on insufficient stock.
+They do not erase your MySQL data.
 
-With the real application running, verify all five product API methods:
+With the real application running, verify the product and category APIs and
+both category pages:
 
 ```powershell
 .\scripts\Verify-Api.ps1
 ```
 
-The script creates, updates, and deletes its own temporary verification product.
+The script creates, updates, and deletes its own temporary verification
+category and product.
 
 ## Database setup on another computer
 
@@ -136,10 +153,10 @@ application.properties uses these environment settings:
 | PORT | 8080 |
 | SEED_DEMO_DATA | true |
 
-Hibernate creates the six tables from the entity mappings on startup. Setting
-SEED_DEMO_DATA to false disables sample-product creation. Existing products are
-kept when the application restarts. Clearing the browser cart does not delete
-products from MySQL.
+Hibernate creates the seven tables from the entity mappings on startup. Setting
+SEED_DEMO_DATA to false disables sample category and product creation. Existing
+categories and products are kept when the application restarts. Clearing the
+browser cart does not delete products from MySQL.
 
 ## Learn how it works
 
